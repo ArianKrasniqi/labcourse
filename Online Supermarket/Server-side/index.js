@@ -1,14 +1,39 @@
 const express = require('express');
 const app = express();
-
 const mongoose = require('mongoose');
-mongoose.connect('mongodb+srv://ArdianFejzulli:12341234@onlinesupermarket-6y05b.mongodb.net/test?retryWrites=true&w=majority',
-{ useNewUrlParser: true, useUnifiedTopology: true })
-.then(() => console.log("connected successfully "))
-.catch(err => console.error(err));
+const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 
-app.get('/', (req, res) => {
-    res.send('hello worlddd')
+const config = require('./config/key');
+
+const { User } = require('./models/user');
+
+// DB Connection
+mongoose.connect(config.mongoURI,
+                 { useNewUrlParser: true, useUnifiedTopology: true })
+                .then(() => console.log("connected successfully "))
+                .catch(err => console.error(err));
+
+app.use(bodyParser.urlencoded({ extended : true }));
+app.use(bodyParser.json());
+app.use(cookieParser());
+
+// http method
+app.post('/api/staff/register', (req, res) => {
+    const user = new User(req.body)
+
+    user.save((err, userData) => {
+        if(err) 
+        return res.json({ 
+            success: false, 
+            err 
+        })
+
+        return res.status(200).json({ 
+            success: true,
+            data: userData
+        })
+    })
 });
 
 app.listen(5000);
