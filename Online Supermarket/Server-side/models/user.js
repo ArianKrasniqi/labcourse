@@ -61,7 +61,7 @@ userSchema.methods.comparePassword = function(plainPassword, cb) {
         if (err)
             return cb(err);
         cb(null, isMatch);
-    })
+    });
 }
 
 //for generate token
@@ -74,7 +74,7 @@ userSchema.methods.generateToken = function(cb) {
         if (err)
             return cb(err)
         cb(null, user);
-    })
+    });
 }
 
 // for auth
