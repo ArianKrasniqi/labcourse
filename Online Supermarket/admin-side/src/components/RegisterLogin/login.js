@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { loginUser } from '../../actions/user_actions';
+import { Link } from 'react-router-dom';
 
 class RegisterLogin extends Component {
     constructor(props) {
@@ -63,7 +64,7 @@ class RegisterLogin extends Component {
                         type="email"
                         className="validate"
                     />
-                    <label htmlFor="email">Email</label>
+                    <label className="active" htmlFor="email">Email</label>
                     <span 
                         className="helper-text"
                         data-error="Type a right email"
@@ -82,7 +83,7 @@ class RegisterLogin extends Component {
                         type="password"
                         className="validate"  
                     />
-                    <label htmlFor="password">Password</label>
+                    <label className="active" htmlFor="password">Password</label>
                     <span 
                         className="helper-text"
                         data-error="wrong"
@@ -98,7 +99,7 @@ class RegisterLogin extends Component {
                 )}
 
                 <div className="row">
-                    <div className="col s12 center ma">
+                    <div className="col s6">
                         <button 
                             className="btn green lighten-2" 
                             type="submit"
@@ -106,11 +107,19 @@ class RegisterLogin extends Component {
                             onClick={this.submitForm}
                             >LOG IN
                         </button>
+                        &nbsp; &nbsp; &nbsp; &nbsp;
+                        <Link to="/dashboard/register">
+                            <button 
+                                className="btn waves-effect green lighten-2" 
+                                type="submit"
+                                name="action"
+                                >SIGN UP
+                            </button>
+                        </Link>
                     </div>
-                </div>
+                </div>      
 
               </form>
-
           </div>
       </div>
     )
