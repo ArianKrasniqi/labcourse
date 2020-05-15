@@ -1,233 +1,199 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { registerUser } from '../../actions/user_actions';
+import React from "react";
+import { Formik } from 'formik';
+import * as Yup from 'yup';
+import { registerUser } from "../../actions/user_actions";
+import { useDispatch } from "react-redux";
 
-class Register extends Component {
-    constructor(props) {
-      super(props)
-    
-      this.state = {
-         firstname: "",
-         lastname: "",
-         email: "",
-         password: "",
-         passwordConfirmation: "",
-         errors: []
-      }
-    }
+import {
+  Form,
+  Input,
+  Button,
+} from 'antd';
 
-    changeHandler = event => {
-        this.setState({ [event.target.name]: event.target.value })
-    }
+const formItemLayout = {
+  labelCol: {
+    xs: { span: 24 },
+    sm: { span: 8 },
+  },
+  wrapperCol: {
+    xs: { span: 24 },
+    sm: { span: 16 },
+  },
+};
+const tailFormItemLayout = {
+  wrapperCol: {
+    xs: {
+      span: 24,
+      offset: 0,
+    },
+    sm: {
+      span: 16,
+      offset: 8,
+    },
+  },
+};
 
-    displayErrors = errors => 
-    errors.map((error, i) => <p key={i}> {error} </p>)
+function RegisterPage(props) {
+  const dispatch = useDispatch();
+  return (
 
-    isFormValid = () => {
-        let errors = [];
-        let error;
+    <Formik
+      initialValues={{
+        email: '',
+        lastName: '',
+        name: '',
+        password: '',
+        confirmPassword: ''
+      }}
+      validationSchema={Yup.object().shape({
+        name: Yup.string()
+          .required('Name is required'),
+        lastName: Yup.string()
+          .required('Last Name is required'),
+        email: Yup.string()
+          .email('Email is invalid')
+          .required('Email is required'),
+        password: Yup.string()
+          .min(6, 'Password must be at least 6 characters')
+          .required('Password is required'),
+        confirmPassword: Yup.string()
+          .oneOf([Yup.ref('password'), null], 'Passwords must match')
+          .required('Confirm Password is required')
+      })}
+      onSubmit={(values, { setSubmitting }) => {
+        setTimeout(() => {
 
-        if (this.isFormEmpty(this.state)) {
-            error = { message: "Fill the fields" };
-            this.setState({ errors: errors.concat(error) });
-        } else if (!this.isPasswordValid(this.state)) {
-            error = { message: "Password is invalid " };
-            this.setState({ errors: errors.concat(error) });
-        } else {
-            return true;
-        }
-    }
+          let dataToSubmit = {
+            email: values.email,
+            password: values.password,
+            name: values.name,
+            lastname: values.lastname,
+          };
 
-    isPasswordValid = ({ password, passwordConfirmation }) => {
-        if (password.length < 6 || passwordConfirmation.length < 6) {
-            return false;
-        } else if (password !== passwordConfirmation) {
-            return false;
-        } else {
-            return true;
-        }
-    }
+          dispatch(registerUser(dataToSubmit)).then(response => {
+            if (response.payload.success) {
+              props.history.push("/login");
+            } else {
+              alert(response.payload.err.errmsg)
+            }
+          })
 
-    isFormEmpty = ({ firstname, lastname, email, password, passwordConfirmation }) => {
+          setSubmitting(false);
+        }, 500);
+      }}
+    >
+      {props => {
+        const {
+          values,
+          touched,
+          errors,
+          isSubmitting,
+          handleChange,
+          handleBlur,
+          handleSubmit,
+        } = props;
         return (
-            !firstname.length ||
-            !lastname.length ||
-            !email.length ||
-            !password.length ||
-            !passwordConfirmation.length
-        );
-    }
+          <div className="app">
+            <h2>Sign up</h2>
+            <Form style={{ minWidth: '375px' }} {...formItemLayout} onSubmit={handleSubmit} >
 
-    submitForm = event => {
-        event.preventDefault();
-
-        let dataToSubmit = {
-            firstname: this.state.firstname,    
-            lastname: this.state.lastname,
-            email: this.state.email,
-            password: this.state.password,
-            passwordConfirmation: this.state.passwordConfirmation,
-        }
-
-        if(this.isFormValid()) {
-            this.setState({ errors: [] })
-            this.props.dispatch(registerUser(dataToSubmit))
-            .then(response => {                
-                if (response.payload.success) {
-                    this.props.history.push('/dashboard/login')
-                } else {
-                    this.setState({ 
-                        errors: this.state.errors.concat("Something went wrong for your register")
-                    });
-                }
-            })
-            .catch(err => {
-                this.setState({
-                    errors: this.state.errors.concat(err)
-                });
-            })
-        } else {
-            console.error('form is not valid'); 
-        }
-    }
-    
-  render() {
-    return (
-      <div>
-        <div className="container">
-          <h2 className="center">Register Staff</h2>
-          <div className="row">
-              <form className="col s12" >
-                <div className="row">
-                    <div className="input-field col s12">
-                    <input 
-                        name="firstname"
-                        value={this.state.firstname}
-                        onChange={e => this.changeHandler(e)}
-                        id="firstname"
-                        type="text"
-                        className="validate"
-                    />
-                    <label  className="active" htmlFor="email">FirstName</label>
-                    <span 
-                        className="helper-text"
-                        data-error="Type a right email"
-                        data-success="right"
-                    />
-                    </div>
-                </div>
-
-                <div className="row">
-                    <div className="input-field col s12">
-                    <input
-                        name="lastname"
-                        value={this.state.lastname}
-                        onChange={e => this.changeHandler(e)}
-                        id="lastname"
-                        type="text"
-                        className="validate"  
-                    />
-                    <label className="active" htmlFor="password">Lastname</label>
-                    <span 
-                        className="helper-text"
-                        data-error="wrong"
-                        data-success="right"
-                    />    
-                    </div>    
-                </div>
-
-                <div className="row">
-                    <div className="input-field col s12">
-                    <input
-                        name="email"
-                        value={this.state.email}
-                        onChange={e => this.changeHandler(e)}
-                        id="email"
-                        type="email"
-                        className="validate"  
-                    />
-                    <label className="active" htmlFor="email">Email</label>
-                    <span 
-                        className="helper-text"
-                        data-error="wrong"
-                        data-success="right"
-                    />    
-                    </div>    
-                </div>
-
-                <div className="row">
-                    <div className="input-field col s12">
-                    <input
-                        name="password"
-                        value={this.state.password}
-                        onChange={e => this.changeHandler(e)}
-                        id="password"
-                        type="password"
-                        className="validate"  
-                    />
-                    <label className="active" htmlFor="password">Password</label>
-                    <span 
-                        className="helper-text"
-                        data-error="wrong"
-                        data-success="right"
-                    />    
-                    </div>    
-                </div>
-
-                <div className="row">
-                    <div className="input-field col s12">
-                    <input
-                        name="passwordConfirmation"
-                        value={this.state.passwordConfirmation}
-                        onChange={e => this.changeHandler(e)}
-                        id="passwordConfirmation"
-                        type="password"
-                        className="validate"  
-                    />
-                    <label className="active" htmlFor="passwordConfirmation">Confirm Password</label>
-                    <span 
-                        className="helper-text"
-                        data-error="wrong"
-                        data-success="right"
-                    />    
-                    </div>    
-                </div>                
-
-                {this.state.errors.length > 0 && (
-                    <div>
-                        {this.displayErrors(this.state.errors)}
-                    </div>
+              <Form.Item required label="Name">
+                <Input
+                  id="name"
+                  placeholder="Enter your name"
+                  type="text"
+                  value={values.name}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  className={
+                    errors.name && touched.name ? 'text-input error' : 'text-input'
+                  }
+                />
+                {errors.name && touched.name && (
+                  <div className="input-feedback">{errors.name}</div>
                 )}
+              </Form.Item>
 
-                <div className="row">
-                    <div className="col s6">
-                        <button 
-                            className="btn green lighten-2" 
-                            type="submit"
-                            name="action"
-                            onClick={this.submitForm}
-                            >   Create an account
-                        </button>
-                        &nbsp; &nbsp; &nbsp; &nbsp;
-                        <Link to="/dashboard/login">
-                            <button 
-                                className="btn green lighten-2" 
-                                type="submit"
-                                name="action"
-                                >LOG IN
-                            </button>
-                        </Link>
-                    </div>
-                </div>      
+              <Form.Item required label="Last Name">
+                <Input
+                  id="lastName"
+                  placeholder="Enter your Last Name"
+                  type="text"
+                  value={values.lastName}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  className={
+                    errors.lastName && touched.lastName ? 'text-input error' : 'text-input'
+                  }
+                />
+                {errors.lastName && touched.lastName && (
+                  <div className="input-feedback">{errors.lastName}</div>
+                )}
+              </Form.Item>
 
-              </form>
+              <Form.Item required label="Email" hasFeedback validateStatus={errors.email && touched.email ? "error" : 'success'}>
+                <Input
+                  id="email"
+                  placeholder="Enter your Email"
+                  type="email"
+                  value={values.email}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  className={
+                    errors.email && touched.email ? 'text-input error' : 'text-input'
+                  }
+                />
+                {errors.email && touched.email && (
+                  <div className="input-feedback">{errors.email}</div>
+                )}
+              </Form.Item>
+
+              <Form.Item required label="Password" hasFeedback validateStatus={errors.password && touched.password ? "error" : 'success'}>
+                <Input
+                  id="password"
+                  placeholder="Enter your password"
+                  type="password"
+                  value={values.password}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  className={
+                    errors.password && touched.password ? 'text-input error' : 'text-input'
+                  }
+                />
+                {errors.password && touched.password && (
+                  <div className="input-feedback">{errors.password}</div>
+                )}
+              </Form.Item>
+
+              <Form.Item required label="Confirm" hasFeedback>
+                <Input
+                  id="confirmPassword"
+                  placeholder="Enter your confirmPassword"
+                  type="password"
+                  value={values.confirmPassword}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  className={
+                    errors.confirmPassword && touched.confirmPassword ? 'text-input error' : 'text-input'
+                  }
+                />
+                {errors.confirmPassword && touched.confirmPassword && (
+                  <div className="input-feedback">{errors.confirmPassword}</div>
+                )}
+              </Form.Item>
+
+              <Form.Item {...tailFormItemLayout}>
+                <Button onClick={handleSubmit} type="primary" disabled={isSubmitting}>
+                  Submit
+                </Button>
+              </Form.Item>
+            </Form>
           </div>
-      </div>
-      </div>
-    )
-  }
-}
+        );
+      }}
+    </Formik>
+  );
+};
 
-export default connect()(Register);
 
+export default RegisterPage
