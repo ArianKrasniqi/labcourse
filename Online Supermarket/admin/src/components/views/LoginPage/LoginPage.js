@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import { withRouter } from "react-router-dom";
-import { loginUser } from "../../actions/user_actions";
+import { loginUser } from "../../../_actions/user_actions";
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import { Form, Input, Button, Checkbox, Typography } from 'antd';
+import { Form, Icon, Input, Button, Checkbox, Typography } from 'antd';
 import { useDispatch } from "react-redux";
-import Icon from '@ant-design/icons';
 
 const { Title } = Typography;
 
@@ -72,10 +71,12 @@ function LoginPage(props) {
           values,
           touched,
           errors,
+          dirty,
           isSubmitting,
           handleChange,
           handleBlur,
           handleSubmit,
+          handleReset,
         } = props;
         return (
           <div className="app">
@@ -144,3 +145,5 @@ function LoginPage(props) {
 };
 
 export default withRouter(LoginPage);
+
+
