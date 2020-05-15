@@ -3,28 +3,41 @@ const app = express();
 const path = require('path');
 const cors = require('cors');
 
-const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 
 const config = require('./config/key');
 
-// DB Connection
-mongoose.connect(config.mongoURI,
-                { useNewUrlParser: true,
-                    useUnifiedTopology: true,
-                   useCreateIndex: true,
-                   useFindAndModify: false
-                })
-                .then(() => console.log("connected successfully "))
-                .catch(err => console.error(err));
+const mongoose = require("mongoose");
+const connect = mongoose.connect(config.mongoURI,
+  {
+    useNewUrlParser: true, useUnifiedTopology: true,
+    useCreateIndex: true, useFindAndModify: false
+  })
+  .then(() => console.log('MongoDB Connected...'))
+  .catch(err => console.log(err));
 
-app.use(bodyParser.urlencoded({ extended : true }));
+app.use(cors())
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser());
 
-app.use(cors());
+app.use('/api/users', require('./routes/users'));
 
-app.use('/api', require('./routes/users'))
+app.use('/uploads', express.static('uploads'));
 
-app.listen(5000);
+if (process.env.NODE_ENV === "production") {
+
+
+  app.use(express.static("admin/build"));
+
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "../admin", "build", "index.html"));
+  });
+}
+
+const port = process.env.PORT || 5000
+
+app.listen(port, () => {
+  console.log(`Server Listening on ${port}`)
+});

@@ -89,12 +89,10 @@ function RegisterPage(props) {
           values,
           touched,
           errors,
-          dirty,
           isSubmitting,
           handleChange,
           handleBlur,
           handleSubmit,
-          handleReset,
         } = props;
         return (
           <div className="app">
@@ -190,6 +188,8 @@ function RegisterPage(props) {
                 <Button onClick={handleSubmit} type="primary" disabled={isSubmitting}>
                   Submit
                 </Button>
+                <br />
+                Or <a href="/login">login in now!</a>
               </Form.Item>
             </Form>
           </div>

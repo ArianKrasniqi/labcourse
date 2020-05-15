@@ -9,18 +9,23 @@
 }
 
 .menu__logo {
-  width: 150px;
   float: left;
 }
 
-.menu__logo a {
+.menu__logo img {
   display: inline-block;
   font-size: 20px;
-  padding: 19px 20px;
+  padding: 5px 10px;
+}
+
+img {
+  vertical-align: middle;
+  width: 280px;
+  border-style: none;
 }
 
 .menu__container .ant-menu-item {
-  padding: 0px 5px;
+  padding: 0px 10px;
 }
 
 .menu__container .ant-menu-submenu-title {

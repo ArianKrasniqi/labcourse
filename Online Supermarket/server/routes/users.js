@@ -4,7 +4,7 @@ const { User } = require("../models/user");
 
 const { auth } = require("../middleware/auth");
 
-router.get("/api/users/auth", auth, (req, res) => {
+router.get("/auth", auth, (req, res) => {
     res.status(200).json({
         _id: req.user._id,
         isAdmin: req.user.role === 0 ? false : true,
@@ -16,7 +16,7 @@ router.get("/api/users/auth", auth, (req, res) => {
     });
 });
 
-router.post("/api/users/register", (req, res) => {
+router.post("/register", (req, res) => {
 
     const user = new User(req.body);
 
@@ -28,7 +28,7 @@ router.post("/api/users/register", (req, res) => {
     });
 });
 
-router.post("/api/users/login", (req, res) => {
+router.post("/login", (req, res) => {
     User.findOne({ email: req.body.email }, (err, user) => {
         if (!user)
             return res.json({
@@ -54,7 +54,7 @@ router.post("/api/users/login", (req, res) => {
     });
 });
 
-router.get("/api/users/logout", auth, (req, res) => {
+router.get("/logout", auth, (req, res) => {
     User.findOneAndUpdate({ _id: req.user._id }, { token: "", tokenExp: "" }, (err, doc) => {
         if (err) return res.json({ success: false, err });
         return res.status(200).send({
