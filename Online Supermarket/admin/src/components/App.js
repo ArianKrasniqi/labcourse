@@ -6,6 +6,10 @@ import LoginPage from "./views/LoginPage/LoginPage.js";
 import RegisterPage from "./views/RegisterPage/RegisterPage.js";
 import NavBar from "./views/NavBar/NavBar";
 import Footer from "./views/Footer/Footer"
+import CreateProduct from "./views/Products/AddProduct";
+import CreateCategory from "./views/Products/CreateCategory";
+import ManageProduct from "./views/Products/ManageProduct";
+import AllProducts from "./views/Products/AllProducts";
 
 function App() {
   return (
@@ -16,6 +20,10 @@ function App() {
           <Route exact path="/" component={Auth(HomePage, null)} />
           <Route exact path="/login" component={Auth(LoginPage, false)} />
           <Route exact path="/register" component={Auth(RegisterPage, false)} />
+          <Route exact path="/products" component={Auth(CreateProduct, true)} />
+          <Route exact path="/categories" component={Auth(CreateCategory, true)} />
+          <Route exact path="/manageproduct" component={Auth(ManageProduct, true)} />
+          <Route exact path="/allproducts" component={Auth(AllProducts, true)} />
         </Switch>
       </div>
       <Footer />

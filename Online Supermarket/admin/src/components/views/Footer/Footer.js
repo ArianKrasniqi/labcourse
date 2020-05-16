@@ -7,7 +7,7 @@ function Footer() {
             flexDirection: 'column', alignItems: 'center',
             justifyContent: 'center', fontSize:'1rem'
         }}>
-           <p> FOOTER </p>
+           <p> Online Supermarket Dashboard </p>
         </div>
     )
 }
