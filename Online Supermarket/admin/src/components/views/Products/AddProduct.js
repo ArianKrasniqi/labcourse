@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Typography, Button, Form, Input } from 'antd';
+import PhotoUpload from '../../utils/PhotoUpload';
 
 const { Title } = Typography;
 const { TextArea } = Input;
@@ -9,6 +10,8 @@ function CreateProduct() {
     const [NameValue, setNameValue] = useState("");
     const [DescriptionValue, setDescriptionValue] = useState("");
     const [PriceValue, setPriceValue] = useState(0);
+
+    const [Images, setImages] = useState([]);
 
     const onNameChange = (event) => {
         setNameValue(event.currentTarget.value)
@@ -22,17 +25,26 @@ function CreateProduct() {
         setPriceValue(event.currentTarget.value)
     }
 
+    const updateImages = (newImages) => {
+        console.log(newImages);
+        setImages(newImages)
+    }
+
   return (
     <div style={{ maxWidth: '700px', margin: '30px auto'}}>
         <div style={{ textAlign: 'center', marginBottom: '30px' }}>
-            <Title level={2}>Add Product</Title>
+            <Title level={2}>Shto Produkt</Title>
         </div>
         
         <Form onSubmit >
-
-            <Button>ADD CATEGORY</Button>
-            <Button>MANAGE PRODUCT</Button>
-            <Button> PRODUCTS</Button>
+            <Button style={{ marginRight: '90px'}}>SHTO KATEGORI</Button> 
+            <Button style={{ marginRight: '40px'}}>MENAXHO PRODUKTET</Button>
+            <Button style={{ marginLeft: '80px'}}>TE GJITHA PRODUKTET</Button>
+            <br />
+            <br />
+            <hr />
+            <br />
+            <PhotoUpload refreshFunction={updateImages}/>
             <br />
             <br />
             <label>Emri Produktit</label>
@@ -73,7 +85,7 @@ function CreateProduct() {
             <br />
 
             <Button>
-                Add Product
+                Shto Produktin
             </Button>
         </Form>
     </div>
