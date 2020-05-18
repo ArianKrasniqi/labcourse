@@ -36,7 +36,7 @@ function CreateProduct() {
             <Title level={2}>Shto Produkt</Title>
         </div>
         
-        <Form onSubmit >
+        <Form>
             <Button style={{ marginRight: '90px'}}>SHTO KATEGORI</Button> 
             <Button style={{ marginRight: '40px'}}>MENAXHO PRODUKTET</Button>
             <Button style={{ marginLeft: '80px'}}>TE GJITHA PRODUKTET</Button>
