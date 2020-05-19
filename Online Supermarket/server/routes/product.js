@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const { Product } = require("../models/Product");
 const multer = require('multer');
 
 const { auth } = require("../middleware/auth");
@@ -22,6 +23,9 @@ var storage = multer.diskStorage({
 
 var upload = multer({ storage: storage}).single("file")
 
+
+// PRODUCTS
+
 router.post("/uploadImage", auth, (req, res) => {
 
         upload(req, res, err => {
@@ -31,6 +35,17 @@ router.post("/uploadImage", auth, (req, res) => {
         })
 });
 
+router.post("/uploadProduct", auth, (req, res) => {
 
+    // ruajtja e te dhenave qe i marrim nga admini brenda DB-s
+
+    const product = new Product(req.body)
+
+    product.save((err) => {
+        if(err) return res.status(400).json({ success: false, err })
+
+        return res.status(200).json({ success: true })
+    })
+});
 
 module.exports = router;
