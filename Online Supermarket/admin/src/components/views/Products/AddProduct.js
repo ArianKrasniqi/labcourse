@@ -51,6 +51,10 @@ function CreateProduct(props) {
     const onSubmit = (event) => {
         event.preventDefault();
 
+        if( !NameValue || !DescriptionValue || !PriceValue || !DiscountValue || !Images ) {
+            return alert('Mbushni te gjitha fushat e kerkuara!');
+        } 
+
         const variables = {
             writer: props.user.userData._id,
             title: NameValue,
