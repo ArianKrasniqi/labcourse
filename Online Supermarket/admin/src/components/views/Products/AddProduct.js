@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Typography, Button, Form, Input } from 'antd';
 import PhotoUpload from '../../utils/PhotoUpload';
 import Axios from 'axios';
+import Categories from './CreateCategory';
 
 const { Title } = Typography;
 const { TextArea } = Input;

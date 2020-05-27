@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 import { Typography, Button, Form, Input } from 'antd';
+import Axios from 'axios';
 
 const { Title } = Typography;
 
-function CreateCategory() {
+function CreateCategory(props) {
   const [CategoryValue, setCategoryValue] = useState("");
   const [SubCategoryValue, setSubCategoryValue] = useState("");
 
@@ -14,6 +15,33 @@ function CreateCategory() {
 
   const onSubCategoryChange = (event) => {
     setSubCategoryValue(event.currentTarget.value)
+  }
+
+  const onSubmit = (event) => {
+    event.preventDefault();
+
+    if( !CategoryValue ) {
+        return alert('Kategoria e zbrazet!!!');
+    }
+
+    console.log("U shtua kategoria");
+    
+    const variables = {
+      writer: props.user.userData._id,
+      category: CategoryValue,
+      subcategory: SubCategoryValue,
+  }
+
+  // to save category in server
+  Axios.post('/api/categories/uploadCategory', variables)
+      .then(response => {
+          if(response.data.success) {
+              alert('Kategoria u shtua me sukses')
+              props.history.push('/allproducts')
+          } else {
+              alert('Probleme teknike, kategoria nuk u shtua')
+          }
+      })
   }
 
 return (
@@ -44,7 +72,7 @@ return (
           <br />
           <br />
           <div style={{ textAlign: 'center' }}>
-          <Button>
+          <Button onClick={onSubmit}>
               Shto Kategorine
           </Button>
           </div>

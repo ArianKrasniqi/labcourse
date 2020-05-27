@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Typography, Button, Row, Card, Col } from 'antd';
+import { Typography, Button, Row, Card, Col, Checkbox, Collapse } from 'antd';
 import Axios from 'axios';
 import ImageSlider from '../../utils/ImageSlider';
+
+const { Panel } = Collapse;
 
 const { Meta } = Card;
 
@@ -10,6 +12,7 @@ const { Title } = Typography;
 function AllProducts() {
 
     const [Products, setProducts] = useState([]);
+    const [Categories, setCategories] = useState([]);
     const [Skip, setSkip] = useState(0);
     const [Limit, setLimit] = useState(8);
     const [PostSize, setPostSize] = useState(0);
@@ -22,6 +25,7 @@ function AllProducts() {
         }
 
         getProducts(variables)
+        getCategories(variables)
     }, [])
 
     const getProducts = (variables) => {
@@ -31,6 +35,18 @@ function AllProducts() {
                 setProducts(response.data.products);
 
                 setPostSize(response.data.postSize)
+            } else {
+                alert('Gabime ne marrjen e te dhenave');
+            }
+        })
+    }
+
+    const getCategories = (variables) => {
+        Axios.post('/api/categories/getCategories', variables )
+        .then(response => {
+            if(response.data.success) {
+                setCategories(response.data.categories);
+
             } else {
                 alert('Gabime ne marrjen e te dhenave');
             }
@@ -53,7 +69,7 @@ function AllProducts() {
     const renderCards = Products.map((product, index) => {
         
         return <Col lg={6} md={8} xs={24}>
-            <Card 
+            <Card key={index}
                 hoverable={true} 
                 cover={<ImageSlider images={product.images} />}
             >
@@ -64,7 +80,21 @@ function AllProducts() {
                 />
             </Card>
         </Col>
-    }) 
+    })
+
+
+    const filterCategory = Categories.map((category, index) => {
+        
+        return (
+                <React.Fragment key={index}>
+                    <Checkbox
+                        type="checkbox"
+                    >
+                        <span>{category.category}</span>
+                    </Checkbox>
+                </React.Fragment>
+        )
+    })
 
     return (
         <div style={{ maxWidth: '700px', margin: '30px auto'}}>
@@ -81,11 +111,13 @@ function AllProducts() {
                 <label>Zgjedh Kategorine </label>
                 <br />
                 <br />
-                <select>
-                        <option key value >
-                            KATEGORIA
-                        </option>
-                </select>
+                <div>
+                    <Collapse defaultActiveKey={['0']}>
+                        <Panel header key="1">
+                            {filterCategory}
+                        </Panel>    
+                    </Collapse>
+                </div>
                 <br /> 
                 <br />
                 {Products.length === 0 ? 
@@ -103,7 +135,7 @@ function AllProducts() {
                 <br />
                 {PostSize >= Limit && 
                     <div style={{ display: 'flex', justifyContent: 'center' }}>
-                        <button onClick={onLoadMore}>Shiko me shume</button>
+                        <Button onClick={onLoadMore}>Shiko me shume</Button>
                     </div>                    
                 }
         </div>

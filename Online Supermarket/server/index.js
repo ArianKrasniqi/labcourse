@@ -24,6 +24,7 @@ app.use(cookieParser());
 
 app.use('/api/users', require('./routes/users'));
 app.use('/api/product', require('./routes/product'));
+app.use('/api/categories', require('./routes/categories'));
 
 app.use('/uploads', express.static('uploads'));
 
