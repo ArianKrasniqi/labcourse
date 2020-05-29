@@ -22,8 +22,8 @@ const productSchema = mongoose.Schema({
         default: []
     },
     categories: {
-        type: Number,
-        default: 1,
+        type: Schema.Types.String,
+        ref: 'Category'
     },
     discount: {
         type: Number,

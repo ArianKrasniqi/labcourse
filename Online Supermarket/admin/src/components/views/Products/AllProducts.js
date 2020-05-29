@@ -68,8 +68,8 @@ function AllProducts() {
 
     const renderCards = Products.map((product, index) => {
         
-        return <Col lg={6} md={8} xs={24}>
-            <Card key={index}
+        return <Col key={index} lg={6} md={8} xs={24}>
+            <Card
                 hoverable={true} 
                 cover={<ImageSlider images={product.images} />}
             >
@@ -104,22 +104,19 @@ function AllProducts() {
                 <Button style={{ marginRight: '115px'}} href='/products'>SHTO PRODUKTE</Button> 
                 <Button style={{ marginRight: '60px'}} href='/manageproduct'>MENAXHO PRODUKTET</Button>
                 <Button style={{ marginLeft: '70px'}} href='/categories'>SHTO KATEGORI</Button>
-                <br />
-                <br />
-                <hr />
-                <br />
+                <br/> <br/>
+                <hr/>
+                <br/>
                 <label>Zgjedh Kategorine </label>
-                <br />
-                <br />
+                <br/>
                 <div>
                     <Collapse defaultActiveKey={['0']}>
-                        <Panel header key="1">
+                        <Panel headerkey="1">
                             {filterCategory}
                         </Panel>    
                     </Collapse>
                 </div>
-                <br /> 
-                <br />
+                <br/> <br/>
                 {Products.length === 0 ? 
                     <div style={{ display: 'flex', height: '300px', justifyContent: 'center', alignItems: 'center' }}>
                         <h2>Nuk ka produkte te regjistruara</h2>
@@ -131,8 +128,7 @@ function AllProducts() {
                         </Row>
                     </div>
                 }
-                <br />
-                <br />
+                <br/> <br/>
                 {PostSize >= Limit && 
                     <div style={{ display: 'flex', justifyContent: 'center' }}>
                         <Button onClick={onLoadMore}>Shiko me shume</Button>

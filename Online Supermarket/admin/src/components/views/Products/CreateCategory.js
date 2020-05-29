@@ -23,8 +23,6 @@ function CreateCategory(props) {
     if( !CategoryValue ) {
         return alert('Kategoria e zbrazet!!!');
     }
-
-    console.log("U shtua kategoria");
     
     const variables = {
       writer: props.user.userData._id,
@@ -54,23 +52,20 @@ return (
           <Button style={{ marginRight: '100px'}} href='/products'>SHTO PRODUKTE</Button> 
           <Button style={{ marginRight: '30px'}} href='/manageproduct'>MENAXHO PRODUKTET</Button>
           <Button style={{ marginLeft: '70px'}} href='/allproducts'>TE GJITHA PRODUKTET</Button>
-          <br />
-          <br />
+          <br /> <br />
           <hr />
           <label>Emri Kategorise</label>
           <Input 
               onChange={onCategoryChange}
               value={CategoryValue}
           />
-          <br />
-          <br />
+          <br /> <br />
           <label>Nen Kategoria</label>
           <Input 
               onChange={onSubCategoryChange}
               value={SubCategoryValue}
           />
-          <br />
-          <br />
+          <br /> <br />
           <div style={{ textAlign: 'center' }}>
           <Button onClick={onSubmit}>
               Shto Kategorine

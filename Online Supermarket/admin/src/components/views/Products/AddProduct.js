@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
-import { Typography, Button, Form, Input } from 'antd';
+import React, { useState, useEffect } from 'react';
+import { Typography, Button, Form, Input, Checkbox, Collapse, Select } from 'antd';
 import PhotoUpload from '../../utils/PhotoUpload';
 import Axios from 'axios';
-import Categories from './CreateCategory';
 
 const { Title } = Typography;
 const { TextArea } = Input;
+const { Panel } = Collapse;
+const { Option } = Select;
 
 const Discounts = [
     { key: 1, value: 5},
@@ -27,6 +28,17 @@ function CreateProduct(props) {
     const [PriceValue, setPriceValue] = useState(0);
     const [DiscountValue, setDiscountValue] = useState(1);
     const [Images, setImages] = useState([]);
+    const [Categories, setCategories] = useState([]);
+
+    useEffect(() => {  
+
+        const variables = {
+            categories: Categories
+        }
+
+        getCategories(variables)
+    }, [])    
+
 
     const onNameChange = (event) => {
         setNameValue(event.currentTarget.value)
@@ -49,10 +61,14 @@ function CreateProduct(props) {
         setDiscountValue(event.currentTarget.value)
     }
 
+    const onCategoryChange = (event) => {
+        setCategories(event.currentTarget.value)
+    }
+
     const onSubmit = (event) => {
         event.preventDefault();
 
-        if( !NameValue || !DescriptionValue || !PriceValue || !DiscountValue || !Images ) {
+        if( !NameValue || !DescriptionValue || !PriceValue || !Images || !Categories) {
             return alert('Mbushni te gjitha fushat e kerkuara!');
         } 
 
@@ -77,6 +93,32 @@ function CreateProduct(props) {
             })
     }
 
+    const getCategories = (variables) => {
+
+        Axios.post('/api/categories/getCategories', variables )
+        .then(response => {
+            if(response.data.success) {
+                setCategories(response.data.categories);
+
+            } else {
+                alert('Gabime ne marrjen e te dhenave');
+            }
+        })
+    }
+
+    const filterCategory = Categories.map((category, index) => {
+        
+        return (
+                <React.Fragment key={index}>
+                    <Checkbox
+                        type="checkbox"
+                    >
+                        <span>{category.category}</span>
+                    </Checkbox>
+                </React.Fragment>
+        )
+    })
+
   return (
     <div style={{ maxWidth: '700px', margin: '30px auto'}}>
         <div style={{ textAlign: 'center', marginBottom: '30px' }}>
@@ -87,50 +129,50 @@ function CreateProduct(props) {
             <Button style={{ marginRight: '110px'}} href='/categories'>SHTO KATEGORI</Button> 
             <Button style={{ marginRight: '50px'}} href='/manageproduct'>MENAXHO PRODUKTET</Button>
             <Button style={{ marginLeft: '50px'}} href='/allproducts'>TE GJITHA PRODUKTET</Button>
-            <br />
-            <br />
-            <hr />
-            <br />
+            <br/> <br/>
+            <hr/>
+            <br/>
             <PhotoUpload refreshFunction={updateImages}/>
-            <br />
-            <br />
+            <br/> <br/>
             <label>Emri Produktit</label>
             <Input 
                 onChange={onNameChange}
                 value={NameValue}
             />
-            <br />
-            <br />
+            <br/> <br />
             <label>Pershkrimi Produktit</label>
             <TextArea 
                 onChange={onDescriptionChange}
                 value={DescriptionValue}
             />
-            <br />
-            <br />
+            <br/> <br/>
             <label>Cmimi Produktit(euro)</label>
             <Input 
                 onChange={onPriceChange}
                 value={PriceValue}
                 type="number"
             />
-            <br />
-            <br />
-            <select>
-                <option key value >
-                    KATEGORIA
-                </option>
-            </select>
-            <br />
-            <br />
-            <select onChange={onDiscountsChange}>
+            <br/> <br/>
+            <label>Zgjedh Kategorine </label>
+            <br/>
+                <Collapse 
+                defaultActiveKey={['0']} 
+                onChange={onCategoryChange}
+                value={Categories} 
+                >
+                    <Panel headerkey="1">
+                        {filterCategory}
+                    </Panel>    
+                </Collapse>
+            <br/>
+            <label>Shto Zbritje </label>
+            <br/> 
+            <Select onClick={onDiscountsChange}>
                 {Discounts.map(item => (
-                    <option key={item.key} value={item.key}> {item.value}% </option>
+                    <Option key={item.key} value={item.key}> {item.value}% </Option>
                 ))}
-            </select>
-            <br />
-            <br />
-
+            </Select>
+            <br/> <br/>
             <div style={{ textAlign: 'center' }}>
                 <Button onClick={onSubmit}>
                     Shto Produktin
