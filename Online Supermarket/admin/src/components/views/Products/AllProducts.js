@@ -2,20 +2,22 @@ import React, { useEffect, useState } from 'react';
 import { Typography, Button, Row, Card, Col, Checkbox, Collapse } from 'antd';
 import Axios from 'axios';
 import ImageSlider from '../../utils/ImageSlider';
+import SearchFeature from '../../utils/SearchFeature';
 
 const { Panel } = Collapse;
 
 const { Meta } = Card;
-
+ 
 const { Title } = Typography;
 
-function AllProducts() {
+function AllProducts(props) {
 
     const [Products, setProducts] = useState([]);
     const [Categories, setCategories] = useState([]);
     const [Skip, setSkip] = useState(0);
     const [Limit, setLimit] = useState(8);
     const [PostSize, setPostSize] = useState(0);
+    const [SearchTerms, setSearchTerms] = useState("");
 
     useEffect(() => {  
 
@@ -32,8 +34,11 @@ function AllProducts() {
         Axios.post('/api/product/getProducts', variables )
         .then(response => {
             if(response.data.success) {
-                setProducts(response.data.products);
-
+                if(variables.loadMore){
+                    setProducts([...Products, ...response.data.products]);
+                } else {
+                    setProducts(response.data.products)
+                }        
                 setPostSize(response.data.postSize)
             } else {
                 alert('Gabime ne marrjen e te dhenave');
@@ -59,10 +64,10 @@ function AllProducts() {
         const variables = {
             skip: skip,
             limit: Limit,
+            loadMore: true
         }
 
         getProducts(variables)
-
         setSkip(skip)
     }
 
@@ -82,7 +87,6 @@ function AllProducts() {
         </Col>
     })
 
-
     const filterCategory = Categories.map((category, index) => {
         
         return (
@@ -96,6 +100,19 @@ function AllProducts() {
         )
     })
 
+    const updateSearchTerms = (newSearchTerm) => {
+
+        const variables = {
+            skip: 0,
+            limit: Limit,
+            searchTerm: newSearchTerm
+        }
+
+        setSkip(0)
+        setSearchTerms(newSearchTerm)
+        getProducts(variables)
+    }   
+
     return (
         <div style={{ maxWidth: '700px', margin: '30px auto'}}>
             <div style={{ textAlign: 'center', marginBottom: '30px' }}>
@@ -106,6 +123,11 @@ function AllProducts() {
                 <Button style={{ marginLeft: '70px'}} href='/categories'>SHTO KATEGORI</Button>
                 <br/> <br/>
                 <hr/>
+                <div style={{ display: 'flex', justifyContent: 'flex-end', margin: '16px auto',}}>
+                    <SearchFeature
+                        refreshFunction={updateSearchTerms}
+                    />
+                </div>
                 <br/>
                 <label>Zgjedh Kategorine </label>
                 <br/>
@@ -116,7 +138,7 @@ function AllProducts() {
                         </Panel>    
                     </Collapse>
                 </div>
-                <br/> <br/>
+                <br/>
                 {Products.length === 0 ? 
                     <div style={{ display: 'flex', height: '300px', justifyContent: 'center', alignItems: 'center' }}>
                         <h2>Nuk ka produkte te regjistruara</h2>

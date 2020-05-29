@@ -55,7 +55,11 @@ router.post("/getProducts", auth, (req, res) => {
     let limit = req.body.limit ? parseInt(req.body.limit) : 100;
     let skip = parseInt(req.body.skip);
 
-    Product.find()
+    let term = req.body.searchTerm;
+
+    if(term) {
+        Product.find()
+        .find({ $text: { $search: term }})
         .populate("writer")
         .sort([[sortBy, order]])
         .skip(skip)
@@ -65,6 +69,19 @@ router.post("/getProducts", auth, (req, res) => {
 
             return res.status(200).json({ success: true, products, postSize: products.length })
         })
+    } else {
+        Product.find()
+        .populate("writer")
+        .sort([[sortBy, order]])
+        .skip(skip)
+        .limit(limit)
+        .exec(( err, products) => {
+            if(err) return res.status(400).json({ success: false, err})
+
+            return res.status(200).json({ success: true, products, postSize: products.length })
+        })
+    }
+
 });
 
 module.exports = router;
