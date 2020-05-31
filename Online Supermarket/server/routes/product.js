@@ -84,4 +84,26 @@ router.post("/getProducts", auth, (req, res) => {
 
 });
 
+// ?id=${productId}&type=single
+router.get("/products_by_id", auth, (req, res) => {
+    let type = req.query.type;
+    let productIds = req.query.id;
+
+    if (type === "array") {
+
+    } 
+
+
+    // duhet me e gjete detajet e produktit qe i perkasin id se produktit
+
+    Product.find({'_id': { $in: productIds }})
+        .populate('writer')
+        .exec((err, product) => {
+            if (err) 
+                return res.status(400).send(err)
+
+                return res.status(200).send(product) 
+        })
+});
+
 module.exports = router;

@@ -10,6 +10,7 @@ import CreateProduct from "./views/Products/AddProduct";
 import CreateCategory from "./views/Products/CreateCategory";
 import ManageProduct from "./views/Products/ManageProduct";
 import AllProducts from "./views/Products/AllProducts";
+import ProductDetails from "./views/ProductDetailPage/ProductDetails";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Route exact path="/categories" component={Auth(CreateCategory, true)} />
           <Route exact path="/manageproduct" component={Auth(ManageProduct, true)} />
           <Route exact path="/allproducts" component={Auth(AllProducts, true)} />
+          <Route exact path="/product/:productId" component={Auth(ProductDetails, true)} />
         </Switch>
       </div>
       <Footer />
