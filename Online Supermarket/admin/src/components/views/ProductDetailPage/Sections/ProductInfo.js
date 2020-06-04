@@ -18,13 +18,21 @@ function ProductInfo(props) {
             <Descriptions.Item label="Shitjet"> {Product.sold} </Descriptions.Item>
             <Descriptions.Item label="Zbritja"> {Product.discount} </Descriptions.Item>
             <Descriptions.Item label="Pershkrimi"> {Product.description} </Descriptions.Item>
-            </Descriptions>
-            <br/> <br/><br/> <br/> 
+        </Descriptions>
+            <br/> <br/>
+            <div style={{ display: 'flex', justifyContent: 'space-around' }}>
+                <Button type="primary" shape="round">
+                    Edito Produktin
+                </Button>
+                <Button type="danger" shape="round">
+                    Fshije Produktin
+                </Button>
+            </div>
+            <br/> <br/>
             <div style={{ display: 'flex', justifyContent: 'center' }}> 
                 <Button 
                     size="large" 
                     shape="round" 
-                    type="danger"
                     href='/allproducts'
                 >
                     Kthehu tek te gjitha produktet

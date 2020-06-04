@@ -60,7 +60,7 @@ function PhotoUpload(props) {
         <div style={{ display: 'flex', width: '350px', height: '240px', overflowX: 'scroll' }}>
 
             {Images.map((image, index) => (
-                <div onClick={() => onDelete(image)}>
+                <div onClick={() => onDelete(image)} key={index}>
                     <img style={{ minWidth: '300px', width: '300px', height: '220px' }} 
                         src={`http://localhost:5000/${image}`} 
                         alt={`productImg-${index}`}/>

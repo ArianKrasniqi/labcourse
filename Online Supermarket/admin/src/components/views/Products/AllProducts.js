@@ -118,8 +118,7 @@ function AllProducts(props) {
             <div style={{ textAlign: 'center', marginBottom: '30px' }}>
                 <Title level={2}>Te gjitha produktet</Title>
             </div>
-                <Button style={{ marginRight: '115px'}} href='/products'>SHTO PRODUKTE</Button> 
-                <Button style={{ marginRight: '60px'}} href='/manageproduct'>MENAXHO PRODUKTET</Button>
+                <Button style={{ marginRight: '140px'}} href='/products'>SHTO PRODUKTE</Button> 
                 <Button style={{ marginLeft: '70px'}} href='/categories'>SHTO KATEGORI</Button>
                 <br/> <br/>
                 <hr/>
@@ -129,8 +128,7 @@ function AllProducts(props) {
                     />
                 </div>
                 <br/>
-                <label>Zgjedh Kategorine </label>
-                <br/>
+                <Title level={3}>Zgjedh Kategorine</Title>
                 <div>
                     <Collapse defaultActiveKey={['0']}>
                         <Panel headerkey="1">

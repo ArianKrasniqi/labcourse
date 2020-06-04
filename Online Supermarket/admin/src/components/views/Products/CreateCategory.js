@@ -1,12 +1,26 @@
-import React, { useState } from 'react'
-import { Typography, Button, Form, Input } from 'antd';
+import React, { useState, useEffect } from 'react'
+import { Typography, Button, Form, Input, Table } from 'antd';
 import Axios from 'axios';
 
 const { Title } = Typography;
+const { Space } = Table;
 
 function CreateCategory(props) {
+
   const [CategoryValue, setCategoryValue] = useState("");
   const [SubCategoryValue, setSubCategoryValue] = useState("");
+  const [Categories, setCategories] = useState([]);
+
+  
+  useEffect(() => {  
+
+    const variables = {
+        categories: Categories
+    }
+
+    getCategories(variables)
+}, [])    
+
 
 
   const onCategoryChange = (event) => {
@@ -42,6 +56,44 @@ function CreateCategory(props) {
       })
   }
 
+  const getCategories = (variables) => {
+    Axios.post('/api/categories/getCategories', variables )
+    .then(response => {
+        if(response.data.success) {
+            setCategories(response.data.categories);
+
+        } else {
+            alert('Gabime ne marrjen e te dhenave');
+        }
+    })
+}
+
+const dataSource = Categories.map((category, index) => {
+    return (
+        <div key={index}>
+            <span>{ category.category }</span>
+        </div>
+    )
+})
+
+const columns = [
+    {
+      title: 'Kategoria',
+      key: 'category',
+    },
+    {
+      title: 'Nen Kategoria',
+      dataIndex: 'subcategory',
+      key: 'subcategory',
+    },
+    {
+      title: 'Menaxho Kategorite',
+      dataIndex: 'manage',
+      key: 'manage',
+    },
+  ];
+  
+
 return (
   <div style={{ maxWidth: '700px', margin: '30px auto'}}>
       <div style={{ textAlign: 'center', marginBottom: '30px' }}>
@@ -49,9 +101,8 @@ return (
       </div>
       
       <Form>
-          <Button style={{ marginRight: '100px'}} href='/products'>SHTO PRODUKTE</Button> 
-          <Button style={{ marginRight: '30px'}} href='/manageproduct'>MENAXHO PRODUKTET</Button>
-          <Button style={{ marginLeft: '70px'}} href='/allproducts'>TE GJITHA PRODUKTET</Button>
+          <Button style={{ marginRight: '130px'}} href='/allproducts'>TE GJITHA PRODUKTET</Button>
+          <Button  style={{ marginLeft: '55px'}} href='/products'>SHTO PRODUKTE</Button> 
           <br /> <br />
           <hr />
           <label>Emri Kategorise</label>
@@ -70,6 +121,14 @@ return (
           <Button onClick={onSubmit}>
               Shto Kategorine
           </Button>
+          </div>
+          <br/> 
+          <hr/>
+          <div style={{ width: '85%', margin: '40px auto' }} >
+            <h1 style={{ textAlign: 'center' }}>Kategorite e regjistruara</h1> 
+            <div>
+                { <Table dataSource={dataSource} columns={columns} size="middle" /> }
+            </div>
           </div>
       </Form>
   </div>

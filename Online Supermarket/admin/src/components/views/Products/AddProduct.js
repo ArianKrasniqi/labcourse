@@ -122,13 +122,12 @@ function CreateProduct(props) {
   return (
     <div style={{ maxWidth: '700px', margin: '30px auto'}}>
         <div style={{ textAlign: 'center', marginBottom: '30px' }}>
-            <Title level={2}>Shto Produkt</Title>
+            <Title level={2}>Shto Produkte</Title>
         </div>
         
         <Form onSubmit={onSubmit}>
-            <Button style={{ marginRight: '110px'}} href='/categories'>SHTO KATEGORI</Button> 
-            <Button style={{ marginRight: '50px'}} href='/manageproduct'>MENAXHO PRODUKTET</Button>
-            <Button style={{ marginLeft: '50px'}} href='/allproducts'>TE GJITHA PRODUKTET</Button>
+            <Button style={{ marginRight: '125px' }} href='/allproducts'>TE GJITHA PRODUKTET</Button> 
+            <Button  style={{ marginLeft: '50px'}} href='/categories'>SHTO KATEGORI</Button>
             <br/> <br/>
             <hr/>
             <br/>
@@ -153,8 +152,7 @@ function CreateProduct(props) {
                 type="number"
             />
             <br/> <br/>
-            <label>Zgjedh Kategorine </label>
-            <br/>
+            <Title level={3}>Zgjedh Kategorine</Title>
                 <Collapse 
                 defaultActiveKey={['0']} 
                 onChange={onCategoryChange}

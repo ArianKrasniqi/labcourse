@@ -8,7 +8,6 @@ import NavBar from "./views/NavBar/NavBar";
 import Footer from "./views/Footer/Footer"
 import CreateProduct from "./views/Products/AddProduct";
 import CreateCategory from "./views/Products/CreateCategory";
-import ManageProduct from "./views/Products/ManageProduct";
 import AllProducts from "./views/Products/AllProducts";
 import ProductDetails from "./views/ProductDetailPage/ProductDetails";
 
@@ -23,7 +22,6 @@ function App() {
           <Route exact path="/register" component={Auth(RegisterPage, false)} />
           <Route exact path="/products" component={Auth(CreateProduct, true)} />
           <Route exact path="/categories" component={Auth(CreateCategory, true)} />
-          <Route exact path="/manageproduct" component={Auth(ManageProduct, true)} />
           <Route exact path="/allproducts" component={Auth(AllProducts, true)} />
           <Route exact path="/product/:productId" component={Auth(ProductDetails, true)} />
         </Switch>
