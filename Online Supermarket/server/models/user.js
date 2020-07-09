@@ -9,6 +9,7 @@ const userSchema = mongoose.Schema({
     name: {
         type: String,
         maxlengh: 50,
+        required: true
     },
     lastname: {
         type: String,
@@ -17,22 +18,35 @@ const userSchema = mongoose.Schema({
     email: {
         type: String,
         trim: true,
-        unique: 1
+        unique: true,
+        match: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/,
+        required: true
     },
     password: {
         type: String,
-        minlength: 5
+        minlength: 5,
+        required: true
     },
+    phone: {
+        type: String,
+        required: true
+      },
     role: {
         type: Number,
         default: 0,
     },
-    token: {
-        type: String,
-    },
-    tokenExp: {
-        type: Number,
-    }
+    orders: [
+        {
+          type: Schema.Types.ObjectId,
+          ref: "Order"
+        }
+    ],
+    favoriteProducts: [
+        {
+          type: Schema.Types.ObjectId,
+          ref: "Product"
+        }
+    ],
 });
 
 //for hash password
