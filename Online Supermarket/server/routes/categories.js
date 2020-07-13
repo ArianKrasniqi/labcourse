@@ -1,31 +1,14 @@
 const express = require('express');
 const router = express.Router();
-const { Category } = require("../models/Category");
+// const { Category } = require("../models/Category");
+const CategoriesControllers = require("../controllers/categories");
 
 const { auth } = require("../middleware/auth");
 
-router.post("/uploadCategory", auth, (req, res) => {
+router.post("/uploadCategory", auth, CategoriesControllers.uploadCategory);
 
-    // ruajtja e te dhenave qe i marrim nga admini brenda DB-s
+router.post("/getCategories", auth, CategoriesControllers.getCategories);
 
-    const category = new Category(req.body)
-
-    category.save((err) => {
-        if(err) return res.status(400).json({ success: false, err })
-
-        return res.status(200).json({ success: true })
-    })
-});
-
-router.post("/getCategories", auth, (req, res) => {
-
-    Category.find()
-        .exec(( err, categories) => {
-            if(err) return res.status(400).json({ success: false, err})
-
-            return res.status(200).json({ success: true, categories})
-        })
-});
-
+router.delete("/deleteCategory", CategoriesControllers.deleteCategory); //Admin auth to be added
 
 module.exports = router;
