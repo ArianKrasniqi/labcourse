@@ -34,16 +34,23 @@ const userSchema = mongoose.Schema({
     role: {
         type: Number,
         default: 0,
+        required: true
+    },
+    token: {
+        type: String,
+    },
+    tokenExp: {
+        type: Number,
     },
     orders: [
         {
-          type: Schema.Types.ObjectId,
+          type: mongoose.Schema.Types.ObjectId,
           ref: "Order"
         }
     ],
     favoriteProducts: [
         {
-          type: Schema.Types.ObjectId,
+          type: mongoose.Schema.Types.ObjectId,
           ref: "Product"
         }
     ],

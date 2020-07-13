@@ -15,14 +15,12 @@ const productSchema = mongoose.Schema({
         type: Number,
         required: true
     },
-    images: [
-        {
-            type: String,
-            default: ""
-        }
-    ],
+    images: {
+        type: Array,
+        default: []
+    },
     subCategory: {
-        type: Schema.Types.String,
+        type: mongoose.Schema.Types.String,
         ref: 'SubCategory'
     },
     discount: {
