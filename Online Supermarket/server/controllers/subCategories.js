@@ -34,17 +34,21 @@ exports.updateSubCategory = async (req, res) => {
   }
  
   try {
-    const updatedSubCategory = await SubCategory.update({_id: id}, {$set: updateField})
+    const updatedSubCategory = await SubCategory.updateOne({_id: id}, {$set: updateField})
+    if(updatedSubCategory.nModified === 0) {
+      throw new Error("Didn't update any field.")
+    }
+    console.log("updatedSubCategory", updatedSubCategory)
     return res.status(200).json(updatedSubCategory)
   } catch (error) {
-    return res.status(500).json(err) 
+    return res.status(500).json(error) 
   }
 }
 
 exports.getSubCategoryById = async (req, res) => {
-  const id = req.params._id;
+  const id = req.body._id;
   try {
-    const subCategory = await SubCategory.find({
+    const subCategory = await SubCategory.findOne({
       _id: id
     }) 
     return res.status(200).json(subCategory)
