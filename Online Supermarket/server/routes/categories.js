@@ -7,7 +7,7 @@ const { auth } = require("../middleware/auth");
 
 router.post("/uploadCategory", auth, CategoriesControllers.uploadCategory);
 
-router.post("/getCategories", auth, CategoriesControllers.getCategories);
+router.post("/getCategories",  CategoriesControllers.getCategories);
 
 router.delete("/deleteCategory", CategoriesControllers.deleteCategory); //Admin auth to be added
 
