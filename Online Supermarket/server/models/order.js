@@ -17,10 +17,12 @@ const orderSchema = new Schema(
 			}
 		},
 		active: {
-			type: Boolean
+			type: Boolean,
+			default: true
 		},
 		delivered: {
-			type: Boolean
+			type: Boolean,
+			default: false
 		},
 		orderTotal: {
 			type: Number,
