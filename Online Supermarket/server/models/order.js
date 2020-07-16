@@ -16,10 +16,6 @@ const orderSchema = new Schema(
 				required: true
 			}
 		},
-		active: {
-			type: Boolean,
-			default: true
-		},
 		delivered: {
 			type: Boolean,
 			default: false

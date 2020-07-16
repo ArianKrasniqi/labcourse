@@ -82,3 +82,27 @@ exports.getOrdersByUserId = async (req, res) => {
     res.status(400).json({ success: false, error })
   }
 }
+
+exports.setDelivered = async (req, res) => {
+  try {
+    const result = await Order.update(
+      { _id: req.body.orderId },
+      { $set: { delivered: req.body.delivered } }
+    )
+
+    console.log(result)
+    if (result.nModified === 0) {
+      throw new Error("Didn't find the order")
+    }
+
+    res.status(200).json(
+      {
+        message: "Order updated",
+        success: true
+      })
+  }
+  catch (err) {
+    console.error(err)
+    res.status(500).json(err);
+  }
+}

@@ -1,48 +1,34 @@
 const Product = require("../models/Product");
-const multer = require('multer');
 
-var storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, 'uploads/')
-  },
-  filename: (req, file, cb) => {
-    cb(null, `${Date.now()}_${file.originalname}`)
-  },
-  fileFilter: (req, file, cb) => {
-    const ext = this.path.extname(file.originalname)
-    if (ext !== '.jpg' || ext !== '.png') {
-      return cb(res.status(400).end('only png and jpg'), false);
-    }
-    cb(null, true)
+exports.uploadProduct = async (req, res) => {
+  try {
+    const images = req.files.map(i => i.path);
+
+    const {
+      title,
+      description,
+      price,
+      subCategory
+    } = req.body;
+
+    const product = new Product({
+      title,
+      description,
+      price,
+      subCategory,
+      images,
+    });
+
+    const result = await product.save();
+    console.log(result)
+    res.status(201).json({ success: true, newProduct: result });
   }
-})
-
-var upload = multer({ storage: storage }).array("file", 2)
-
-exports.uploadImage = (req, res) => {
-
-  upload(req, res, err => {
-    if (err) return res.json({ success: false, err })
-    console.log(res)
-    // console.log(res.req)
-    return res.json({ success: true, image: res.req.file, filename: res.req.file })
-  })
+  catch (err) {
+    res.status(400).json({ success: false, err })
+  }
 }
 
-exports.uploadProduct = (req, res) => {
-
-  // ruajtja e te dhenave qe i marrim nga admini brenda DB-s
-
-  const product = new Product(req.body)
-
-  product.save((err) => {
-    if (err) return res.status(400).json({ success: false, err })
-
-    return res.status(200).json({ success: true })
-  })
-}
-
-exports.getProducts = (req, res) => {
+exports.getProducts = async (req, res) => {
 
   let order = req.body.order ? req.body.order : "desc";
   let sortBy = req.body.sortBy ? req.body.sortBy : "_id";
@@ -77,31 +63,47 @@ exports.getProducts = (req, res) => {
 
 }
 
-exports.getProductById = (req, res) => {
-  let type = req.query.type;
-  let productIds = req.query.id;
-
-  if (type === "array") {
-
+exports.getProductById = async (req, res) => {
+  try {
+    const product = await Product.findById(req.params.id);
+    return res.status(200).json(product)
+  } catch (error) {
+    return res.status(404).json(error)
   }
+}
 
+exports.updateProduct = async (req, res) => {
+  try {
+    const productId = req.params.id;
 
-  // duhet me e gjete detajet e produktit qe i perkasin id se produktit
+    const updateFields = {}
+    for (const ops of Object.keys(req.body)) {
+      if (ops != 'images')
+        updateFields[ops] = req.body[ops];
+    }
 
-  Product.find({ '_id': { $in: productIds } })
-    .populate('writer')
-    .exec((err, product) => {
-      if (err)
-        return res.status(400).send(err)
+    const updatedProduct = await Product.updateOne({ _id: productId }, { $set: updateFields })
+    if (updatedProduct.nModified === 0) {
+      throw new Error("Didn't update any field.")
+    }
 
-      return res.status(200).send(product)
+    return res.status(200).json({
+      message: "Product Updated",
+      success: true
     })
+  } catch (error) {
+    console.log(error)
+    return res.status(500).json(error.message)
+  }
 }
 
 exports.deleteProduct = async (req, res) => {
   try {
     const deletedProduct = await Product.deleteOne({ _id: req.body._id });
-    console.log(deletedProduct)
+    if (deletedProduct.n === 0) {
+      throw new Error("Didn't find the product")
+    }
+
     return res.status(200).json({
       message: "Product Deleted!"
     })

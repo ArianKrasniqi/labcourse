@@ -32,7 +32,8 @@ const productSchema = new Schema({
         default: -1
     },
     sold: {
-        type: Number
+        type: Number,
+        default: 0
     }
 }, { timesstamps: true });
 
