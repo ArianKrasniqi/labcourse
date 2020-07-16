@@ -9,7 +9,7 @@ router.patch("/updateSubCategory", SubCategoryController.updateSubCategory); //A
 
 router.get("/getSubCategoryById", SubCategoryController.getSubCategoryById); //Admin auth to be added
 
-router.get("/getSubCategories", SubCategoryController.getSubCategories); //Admin auth to be added
+router.get("/getSubCategories/:categoryId", SubCategoryController.getSubCategories); //Admin auth to be added
 
 router.delete("/deleteSubCategory", SubCategoryController.deleteSubCategory); //Admin auth to be added
 
