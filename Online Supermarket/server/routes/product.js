@@ -13,7 +13,7 @@ router.post("/uploadImage", auth, ProductController.uploadImage);
 
 router.post("/uploadProduct", auth, ProductController.uploadProduct);
 
-router.post("/getProducts", auth, ProductController.getProducts);
+router.get("/getProducts", ProductController.getProducts);
 
 // ?id=${productId}&type=single
 router.get("/products_by_id", auth, ProductController.getProductById);

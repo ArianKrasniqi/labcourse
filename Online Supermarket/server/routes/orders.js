@@ -4,5 +4,10 @@ const router = express.Router();
 // Controller reference
 const OrdersController = require("../controllers/orders");
 
+// Get Orders
+router.get("/getOrdersByUserId/:userId", OrdersController.getOrdersByUserId);
+
 // Add Order
-router.post("/makeOrder", OrdersController.make_order); //User Auth to be added 
+router.post("/makeOrder", OrdersController.makeOrder); //User Auth to be added 
+
+module.exports = router;

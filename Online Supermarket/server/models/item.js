@@ -7,12 +7,18 @@ const itemSchema = new Schema({
 		ref: 'Product',
 		required: true
 	},
+	name: {
+		type: String
+	},
+	productPrice: {
+		type: Number
+	},
 	quantity: {
 		type: Number,
 		required: true,
-		min: [ 1, "The quantity can't be lower than 0." ]
+		min: [1, "The quantity can't be lower than 0."]
 	},
-	totalPrice: {
+	price: {
 		type: String,
 		required: true
 	}

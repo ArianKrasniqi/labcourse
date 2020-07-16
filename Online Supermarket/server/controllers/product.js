@@ -3,29 +3,29 @@ const multer = require('multer');
 
 var storage = multer.diskStorage({
   destination: (req, file, cb) => {
-      cb(null, 'uploads/')
+    cb(null, 'uploads/')
   },
   filename: (req, file, cb) => {
-      cb(null, `${Date.now()}_${file.originalname}`)
+    cb(null, `${Date.now()}_${file.originalname}`)
   },
   fileFilter: (req, file, cb) => {
-      const ext = this.path.extname(file.originalname)
-      if (ext !== '.jpg' || ext !== '.png') {
-          return cb(res.status(400).end('only png and jpg'), false);
-      }
-      cb(null, true)
+    const ext = this.path.extname(file.originalname)
+    if (ext !== '.jpg' || ext !== '.png') {
+      return cb(res.status(400).end('only png and jpg'), false);
+    }
+    cb(null, true)
   }
 })
 
-var upload = multer({storage: storage}).array("file", 2)
+var upload = multer({ storage: storage }).array("file", 2)
 
 exports.uploadImage = (req, res) => {
 
   upload(req, res, err => {
-      if(err) return res.json({ success: false, err })
-      console.log(res)
-      // console.log(res.req)
-      return res.json({ success: true, image: res.req.file, filename: res.req.file })
+    if (err) return res.json({ success: false, err })
+    console.log(res)
+    // console.log(res.req)
+    return res.json({ success: true, image: res.req.file, filename: res.req.file })
   })
 }
 
@@ -36,9 +36,9 @@ exports.uploadProduct = (req, res) => {
   const product = new Product(req.body)
 
   product.save((err) => {
-      if(err) return res.status(400).json({ success: false, err })
+    if (err) return res.status(400).json({ success: false, err })
 
-      return res.status(200).json({ success: true })
+    return res.status(200).json({ success: true })
   })
 }
 
@@ -51,27 +51,27 @@ exports.getProducts = (req, res) => {
 
   let term = req.body.searchTerm;
 
-  if(term) {
-      Product.find()
-      .find({ $text: { $search: term }})
+  if (term) {
+    Product.find()
+      .find({ $text: { $search: term } })
       .populate("writer")
       .sort([[sortBy, order]])
       .skip(skip)
       .limit(limit)
-      .exec(( err, products) => {
-          if(err) return res.status(400).json({ success: false, err})
+      .exec((err, products) => {
+        if (err) return res.status(400).json({ success: false, err })
 
-          return res.status(200).json({ success: true, products, postSize: products.length })
+        return res.status(200).json({ success: true, products, postSize: products.length })
       })
   } else {
-      Product.find()
+    Product.find()
       .sort([[sortBy, order]])
       // .skip(skip)
       .limit(limit)
-      .exec(( err, products) => {
-          if(err) return res.status(400).json({ success: false, err})
+      .exec((err, products) => {
+        if (err) return res.status(400).json({ success: false, err })
 
-          return res.status(200).json({ success: true, products, postSize: products.length })
+        return res.status(200).json({ success: true, products, postSize: products.length })
       })
   }
 
@@ -83,29 +83,29 @@ exports.getProductById = (req, res) => {
 
   if (type === "array") {
 
-  } 
+  }
 
 
   // duhet me e gjete detajet e produktit qe i perkasin id se produktit
 
-  Product.find({'_id': { $in: productIds }})
-      .populate('writer')
-      .exec((err, product) => {
-          if (err) 
-              return res.status(400).send(err)
+  Product.find({ '_id': { $in: productIds } })
+    .populate('writer')
+    .exec((err, product) => {
+      if (err)
+        return res.status(400).send(err)
 
-              return res.status(200).send(product) 
-      })
+      return res.status(200).send(product)
+    })
 }
 
 exports.deleteProduct = async (req, res) => {
-  try{
+  try {
     const deletedProduct = await Product.deleteOne({ _id: req.body._id });
     console.log(deletedProduct)
     return res.status(200).json({
       message: "Product Deleted!"
     })
-  }catch(err){
+  } catch (err) {
     console.log(err)
     return res.status(404).json(err)
   }

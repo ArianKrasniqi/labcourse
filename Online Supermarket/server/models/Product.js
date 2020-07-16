@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const productSchema = mongoose.Schema({
+const productSchema = new Schema({
     title: {
         type: String,
         maxlength: 50,
@@ -34,6 +34,6 @@ const productSchema = mongoose.Schema({
     sold: {
         type: Number
     }
-}, { timesstamps: true});
+}, { timesstamps: true });
 
 module.exports = mongoose.model('Product', productSchema);
