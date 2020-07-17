@@ -17,17 +17,12 @@ import { selectCurrentUser } from './redux/user/user.selectors';
 import { selectCollectionsForPreview } from './redux/shop/shop.selectors';
 
 class App extends React.Component {
-  unsubscribeFromAuth = null;
 
   componentDidMount() {
     const { setCurrentUser, collectionsArray } = this.props;
 
     const currentUser = localStorage.getItem('user');
     if (currentUser) setCurrentUser(currentUser);
-  }
-
-  componentWillUnmount() {
-    // this.unsubscribeFromAuth();
   }
 
   render() {

@@ -33,3 +33,25 @@ export const signUp = async (params) => {
 
     return await resolve(await res.json());
 }
+
+export const getSubCategories = async () => {
+    const getSubCategoriesEndpoint = `${subCategoryEndpoint}/getSubCategories`;
+
+    const res = await fetch(getSubCategoriesEndpoint, {
+        method: 'GET',
+        headers: HEADERS
+    });
+
+    return await resolve(await res.json());
+}
+
+export const getCategories = async () => {
+    const getCategoriesEndpoint = `${categoryEndpoint}/getCategories`;
+
+    const res = await fetch(getCategoriesEndpoint, {
+        method: 'GET',
+        headers: HEADERS
+    });
+
+    return await resolve(await res.json());
+}
