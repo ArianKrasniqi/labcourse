@@ -1,16 +1,18 @@
 const express = require('express');
 const router = express.Router();
 
+const AdminAuth = require("../middleware/admin_auth");
+
 const SubCategoryController = require('../controllers/subCategories');
 
-router.post("/uploadSubCategory", SubCategoryController.uploadSubCategory); //Admin auth to be added
+router.post("/uploadSubCategory", AdminAuth, SubCategoryController.uploadSubCategory);
 
-router.patch("/updateSubCategory", SubCategoryController.updateSubCategory); //Admin auth to be added
+router.patch("/updateSubCategory", AdminAuth, SubCategoryController.updateSubCategory);
 
-router.get("/getSubCategoryById", SubCategoryController.getSubCategoryById); //Admin auth to be added
+router.get("/getSubCategoryById", SubCategoryController.getSubCategoryById);
 
-router.get("/getSubCategories/:categoryId", SubCategoryController.getSubCategories); //Admin auth to be added
+router.get("/getSubCategories/:categoryId", SubCategoryController.getSubCategories);
 
-router.delete("/deleteSubCategory", SubCategoryController.deleteSubCategory); //Admin auth to be added
+router.delete("/deleteSubCategory", AdminAuth, SubCategoryController.deleteSubCategory);
 
 module.exports = router;
