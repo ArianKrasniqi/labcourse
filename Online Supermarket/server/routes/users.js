@@ -2,18 +2,18 @@ const express = require('express');
 const router = express.Router();
 const UsersController = require("../controllers/users")
 
-const { auth } = require("../middleware/auth");
+const AdminAuth = require("../middleware/admin_auth");
 
-router.get("/auth", auth, UsersController.auth);
+// router.get("/auth", UsersController.auth);
 
 router.post("/register", UsersController.register);
 
 router.post("/login", UsersController.login);
 
-router.get("/logout", auth, UsersController.logout);
+router.delete("/deleteUser", AdminAuth, UsersController.delete);
 
-router.delete("/deleteUser", UsersController.delete);
+router.get("/logout/:_id", UsersController.logout);
 
-router.get("/getUsers", UsersController.getUsers)
+router.get("/getUsers", AdminAuth, UsersController.getUsers);
 
 module.exports = router;

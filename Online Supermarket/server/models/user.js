@@ -89,7 +89,8 @@ userSchema.methods.comparePassword = function (plainPassword, cb) {
 //for generate token
 userSchema.methods.generateToken = function (cb) {
     var user = this;
-    var token = jwt.sign(user._id.toHexString(), 'secret')
+    const secret = (user.role === 0) ? 'user_auth' : 'admin_auth';
+    var token = jwt.sign(user._id.toHexString(), secret);
     var oneHour = moment().add(1, 'hour').valueOf();
 
     user.tokenExp = oneHour;
@@ -102,10 +103,10 @@ userSchema.methods.generateToken = function (cb) {
 }
 
 // for auth
-userSchema.statics.findByToken = function (token, cb) {
+userSchema.statics.findByToken = function (token, secret, cb) {
     var user = this;
 
-    jwt.verify(token, 'secret', function (err, decode) {
+    jwt.verify(token, secret, function (err, decode) {
         user.findOne({ "_id": decode, "token": token }, function (err, user) {
             if (err)
                 return cb(err);

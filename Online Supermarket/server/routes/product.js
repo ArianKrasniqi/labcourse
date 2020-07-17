@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const ProductController = require('../controllers/product');
 
-const { auth } = require("../middleware/auth");
+const AdminAuth = require("../middleware/admin_auth");
 
 const multer = require('multer');
 
@@ -27,15 +27,15 @@ var upload = multer({ storage: storage }).array("file", 10)
 
 // PRODUCTS
 
-router.post("/uploadProduct", upload, ProductController.uploadProduct);
+router.post("/uploadProduct", AdminAuth, upload, ProductController.uploadProduct);
 
 router.get("/getProducts", ProductController.getProducts);
 
 // ?id=${productId}&type=single
 router.get("/getProductById/:id", ProductController.getProductById);
 
-router.delete("/deleteProduct", ProductController.deleteProduct); //admin auth to be added 
+router.delete("/deleteProduct", AdminAuth, ProductController.deleteProduct); //admin auth to be added 
 
-router.patch("/updateProduct/:id", ProductController.updateProduct); //admin auth to be added 
+router.patch("/updateProduct/:id", AdminAuth, ProductController.updateProduct); //admin auth to be added 
 
 module.exports = router;

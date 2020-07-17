@@ -75,7 +75,22 @@ const getProdData = async id => {
 exports.getOrdersByUserId = async (req, res) => {
   try {
     const userId = req.params.userId;
-    const orders = await Order.find({ user: userId });
+    const delivered = req.body.delivered;
+    const opt = { user: userId }
+
+    if (delivered) opt.delivered = delivered;
+
+    const orders = await Order.find(opt);
+    res.status(200).json({ success: true, orders })
+  } catch (error) {
+    console.log(error)
+    res.status(400).json({ success: false, error })
+  }
+}
+
+exports.getUndeliveredOrders = async (req, res) => {
+  try {
+    const orders = await Order.find({ delivered: false });
     res.status(200).json({ success: true, orders })
   } catch (error) {
     console.log(error)
