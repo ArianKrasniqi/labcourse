@@ -23,7 +23,7 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 
 app.use('/api/users', require('./routes/users'));
-app.use('/api/product', require('./routes/product'));
+app.use('/api/product', require('./routes/product')); 
 app.use('/api/categories', require('./routes/categories'));
 app.use('/api/subCategories', require('./routes/subCategories'));
 app.use('/api/orders', require('./routes/orders'));
