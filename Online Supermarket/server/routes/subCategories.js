@@ -11,7 +11,7 @@ router.patch("/updateSubCategory", AdminAuth, SubCategoryController.updateSubCat
 
 router.get("/getSubCategoryById", SubCategoryController.getSubCategoryById);
 
-router.get("/getSubCategories/:categoryId", SubCategoryController.getSubCategories);
+router.get("/getSubCategories", SubCategoryController.getSubCategories);
 
 router.delete("/deleteSubCategory", AdminAuth, SubCategoryController.deleteSubCategory);
 

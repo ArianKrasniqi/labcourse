@@ -4,6 +4,7 @@ const SubCategory = require("../models/subCategory");
 exports.uploadSubCategory = async (req, res) => {
   const subCategory = new SubCategory({
     name: req.body.name,
+    image: req.body.image,
     category: req.body.category,
   })
 
@@ -62,7 +63,7 @@ exports.getSubCategoryById = async (req, res) => {
 
 exports.getSubCategories = async (req, res) => {
   try {
-    const subCategories = await SubCategory.find({ category: req.params.categoryId });
+    const subCategories = await SubCategory.find();
     return res.status(200).json(subCategories)
   } catch (error) {
     return res.status(404).json(error)

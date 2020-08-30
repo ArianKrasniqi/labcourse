@@ -72,6 +72,15 @@ exports.getProductById = async (req, res) => {
   }
 }
 
+exports.getProductsBySubCategoryId = async (req, res) => {
+  try {
+    const products = await Product.find({ subCategory: req.params.id });
+    return res.status(200).json(products)
+  } catch (error) {
+    return res.status(404).json(error)
+  }
+}
+
 exports.updateProduct = async (req, res) => {
   try {
     const productId = req.params.id;

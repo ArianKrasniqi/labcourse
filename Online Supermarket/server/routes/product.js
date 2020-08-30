@@ -34,6 +34,8 @@ router.get("/getProducts", ProductController.getProducts);
 // ?id=${productId}&type=single
 router.get("/getProductById/:id", ProductController.getProductById);
 
+router.get("/getProductsBySubCategoryId/:id", ProductController.getProductsBySubCategoryId);
+
 router.delete("/deleteProduct", AdminAuth, ProductController.deleteProduct); //admin auth to be added 
 
 router.patch("/updateProduct/:id", AdminAuth, ProductController.updateProduct); //admin auth to be added 
