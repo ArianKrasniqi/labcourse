@@ -43,6 +43,8 @@ function RegisterPage(props) {
         email: '',
         lastName: '',
         name: '',
+        phone: '',
+        role: 1,
         password: '',
         confirmPassword: ''
       }}
@@ -54,6 +56,8 @@ function RegisterPage(props) {
         email: Yup.string()
           .email('Email is invalid')
           .required('Email is required'),
+        phone: Yup.number()
+          .required('Phone is required'),
         password: Yup.string()
           .min(6, 'Password must be at least 6 characters')
           .required('Password is required'),
@@ -68,6 +72,8 @@ function RegisterPage(props) {
             email: values.email,
             password: values.password,
             name: values.name,
+            role: 1,
+            phone: values.phone,
             lastname: values.lastname,
             image: `http://gravatar.com/avatar/${moment().unix()}?d=identicon`
           };
@@ -147,6 +153,23 @@ function RegisterPage(props) {
                 />
                 {errors.email && touched.email && (
                   <div className="input-feedback">{errors.email}</div>
+                )}
+              </Form.Item>
+
+              <Form.Item required label="Phone (+383)" hasFeedback validateStatus={errors.phone && touched.phone ? "error" : 'success'}>
+                <Input
+                  id="phone"
+                  placeholder="Enter your Phone"
+                  type="phone"
+                  value={values.phone}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  className={
+                    errors.phone && touched.phone ? 'text-input error' : 'text-input'
+                  }
+                />
+                {errors.phone && touched.phone && (
+                  <div className="input-feedback">{errors.phone}</div>
                 )}
               </Form.Item>
 
