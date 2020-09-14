@@ -18,7 +18,18 @@ function RightMenu(props) {
     });
   };
 
-  if (user.userData && !user.userData.isAuth) {
+  if (window.localStorage.getItem('rememberMe') || window.sessionStorage.getItem('loggedIn')) {
+    return (
+      <Menu mode={props.mode}>
+        <Menu.Item key="create">
+          <a href="/products">Menaxho produktet</a>
+        </Menu.Item>
+        <Menu.Item key="logout">
+          <a onClick={logoutHandler}>Dil</a>
+        </Menu.Item>
+      </Menu>
+    )
+  } else {
     return (
       <Menu mode={props.mode}>
         <Menu.Item key="mail">
@@ -26,17 +37,6 @@ function RightMenu(props) {
         </Menu.Item>
         <Menu.Item key="app">
           <a href="/register">Regjistrohu</a>
-        </Menu.Item>
-      </Menu>
-    )
-  } else {
-    return (
-      <Menu mode={props.mode}>
-        <Menu.Item key="create">
-          <a href="/products">Create</a>
-        </Menu.Item>        
-        <Menu.Item key="logout">
-          <a onClick={logoutHandler}>Logout</a>
         </Menu.Item>
       </Menu>
     )
