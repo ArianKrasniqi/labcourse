@@ -10,7 +10,7 @@ function LeftMenu(props) {
     </Menu.Item>
     <SubMenu title={<span>SuperMarket</span>}>
         <Menu.Item key="setting:1">Shiko Marketin</Menu.Item>
-        <Menu.Item key="setting:2">Shiko Profilin</Menu.Item>
+        <Menu.Item key="setting:2"><a href= "/adminprofile">Profili juaj</a> </Menu.Item>
     </SubMenu>
   </Menu>
   )
