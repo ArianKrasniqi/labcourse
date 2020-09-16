@@ -4,17 +4,17 @@ import { Typography, Button, Descriptions } from 'antd';
 
 const { Title } = Typography;
 
-function profile(props) {
+const Profile = () => {
 
-    // const userId = props.match.params.userId
-    // const [User, setUser] = useState([]);
+     const userId = window.localStorage.getItem('userId');
+     const [User, setUser] = useState([]);
 
-    // useEffect(() => {
-    //     Axios.get(`/api/users/getUsers_by_id?id=${userId}&type=single`)
-    //         .then(response => {
-    //             setUser(response.data[0]);
-    //         })
-    // }, [])
+     useEffect(() => {
+      Axios.get(`/api/users/getUserById/${userId}`)
+          .then(response => {
+              setUser(response.data);
+          })
+  }, [])
     
   return (
     <div style={{ maxWidth: '700px', margin: '30px auto'}}>
@@ -23,14 +23,13 @@ function profile(props) {
         </div>
         <div>
         <Descriptions title="Te dhenat e juaja">
-            <Descriptions.Item label="Emri dhe Mbiemri"> {} </Descriptions.Item>
-            <Descriptions.Item label="Email"> {} </Descriptions.Item>
-            <Descriptions.Item label="Numri telefonit"> {} </Descriptions.Item>
-            <Descriptions.Item label="Pershkrimi"> {} </Descriptions.Item>
+            <Descriptions.Item label="Emri dhe Mbiemri"> {User.name} </Descriptions.Item>
+            <Descriptions.Item label="Email"> {User.email} </Descriptions.Item>
+            <Descriptions.Item label="Numri telefonit"> {User.phone} </Descriptions.Item>
         </Descriptions>
        </div>
     </div>
   )
 }
 
-export default profile; 
+export default Profile;

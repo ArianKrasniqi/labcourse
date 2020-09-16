@@ -18,4 +18,6 @@ router.get("/getUsers", AdminAuth, UsersController.getUsers);
 
 router.post("/email", UsersController.email);
 
+router.get("/getUserById/:id", UsersController.getUserById);
+
 module.exports = router;
