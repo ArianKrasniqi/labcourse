@@ -100,3 +100,11 @@ exports.email = async (req, res) => {
   }
   return res.status(404).json("Email was not sent!")
 }
+exports.getUserById = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    return res.status(200).json(user)
+  } catch (error) {
+    return res.status(404).json(error)
+  }
+}
