@@ -16,4 +16,6 @@ router.get("/logout/:_id", UsersController.logout);
 
 router.get("/getUsers", AdminAuth, UsersController.getUsers);
 
+router.post("/email", UsersController.email);
+
 module.exports = router;
