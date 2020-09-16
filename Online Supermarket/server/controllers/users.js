@@ -1,4 +1,5 @@
 const User = require("../models/user");
+const database = require("../utils/mysql_connection");
 
 exports.auth = (req, res) => {
   res.status(200).json({
@@ -74,7 +75,6 @@ exports.getUsers = async (req, res) => {
 exports.delete = async (req, res) => {
   try {
     const deleteUser = await User.deleteOne({ _id: req.body._id });
-    console.log(deleteUser)
     return res.status(200).json({
       message: "User Deleted!"
     })
@@ -82,4 +82,21 @@ exports.delete = async (req, res) => {
     console.log(err)
     return res.status(404).json(err)
   }
+}
+
+exports.email = async (req, res) => {
+  const {name, lastname, phone, email, subject} = req.body;
+
+  const result = await database
+  .promise()
+  .query(
+    `INSERT INTO emails (name, lastname, phone, email, subject) values('${name}','${lastname}','${phone}','${email}','${subject}')`
+  );
+
+  if (result[0].affectedRows === 1) {
+    return res.status(200).json({
+      message: "Email Sent!"
+    })
+  }
+  return res.status(404).json("Email was not sent!")
 }
