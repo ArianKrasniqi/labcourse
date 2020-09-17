@@ -22,7 +22,7 @@ function ProductInfo(props) {
         </Descriptions>
             <br/> <br/>
             <div style={{ display: 'flex', justifyContent: 'space-around' }}>
-                <Button type="primary" shape="round">
+            <Button type="primary" shape="round" href={`/uploadProduct/${Product._id}`}>
                     Edito Produktin
                 </Button>
                 <Button onClick={() => props.deleteProduct(Product._id)} type="danger" shape="round">

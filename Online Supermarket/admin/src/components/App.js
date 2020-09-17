@@ -11,6 +11,8 @@ import CreateCategory from "./views/Products/CreateCategory";
 import AllProducts from "./views/Products/AllProducts";
 import ProductDetails from "./views/ProductDetailPage/ProductDetails";
 import AdminProfile from './views/AdminProfile/profile';
+import UploadProduct from './views/Products/UploadProduct';
+
 
 function App() {
   return (
@@ -26,6 +28,7 @@ function App() {
           <Route exact path="/allproducts" component={Auth(AllProducts, true)} />
           <Route exact path="/product/:productId" component={Auth(ProductDetails, true)} />
           <Route exact path="/adminprofile" component={Auth(AdminProfile, true)} />
+          <Route exact path="/uploadProduct/:productId" component={Auth(UploadProduct, true)} />
         </Switch>
       </div>
       <Footer />
