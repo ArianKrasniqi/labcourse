@@ -5,7 +5,7 @@ const CategoriesControllers = require("../controllers/categories");
 
 const AdminAuth = require("../middleware/admin_auth");
 
-router.post("/uploadCategory", AdminAuth, CategoriesControllers.uploadCategory);
+router.post("/uploadCategory", CategoriesControllers.uploadCategory);
 
 router.get("/getCategories", CategoriesControllers.getCategories);
 
