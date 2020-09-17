@@ -11,6 +11,7 @@ function ProductInfo(props) {
 
     }, [props.detail])
 
+
   return (
     <div>
         <Descriptions title="Detajet e Produktit">
@@ -24,7 +25,7 @@ function ProductInfo(props) {
                 <Button type="primary" shape="round">
                     Edito Produktin
                 </Button>
-                <Button type="danger" shape="round">
+                <Button onClick={() => props.deleteProduct(Product._id)} type="danger" shape="round">
                     Fshije Produktin
                 </Button>
             </div>
