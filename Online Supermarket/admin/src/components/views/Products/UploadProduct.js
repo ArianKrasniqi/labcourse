@@ -33,11 +33,9 @@ function UploadProduct(props) {
     const [Product, setProduct] = useState([]);
     const productId = props.match.params.productId
 
-    console.log('props', productId);
     useEffect(() => {
         Axios.get(`/api/product/getProductById/${productId}`)
             .then(response => {
-                console.log('response', response);
                 setProduct(response.data);
                 setNameValue(response.data.title);
                 setDescriptionValue(response.data.description);
@@ -45,8 +43,6 @@ function UploadProduct(props) {
                 setCategories(response.data.categories);
             })
     }, [])
-
-    console.log('product', Product);
     
     useEffect(() => {  
 
