@@ -2,7 +2,7 @@
   width: 22%vw;
   display: flex;
   flex-direction: column;
-  height: 350px;
+  height: 370px;
   align-items: center;
   position: relative;
 
@@ -18,7 +18,7 @@
     width: 80%;
     opacity: 0.7;
     position: absolute;
-    top: 255px;
+    top: 235px;
     display: none;
   }
 
@@ -43,10 +43,19 @@
     .name {
       width: 90%;
       margin-bottom: 15px;
+      font-weight: 600;
     }
 
     .price {
-      width: 10%;
+      width: 14%;
     }
+    .price::after {
+      content: '€';
+    }
+  }
+
+  .description {
+    width: 100%;
+    margin-top: 5px;
   }
 }

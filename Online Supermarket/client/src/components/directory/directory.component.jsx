@@ -30,7 +30,7 @@ const Directory = ({ sections, setSubCategories }) => {
 
     return <div className="directory-menu">
         {sections.map(({ _id, ...otherProps }) =>  (
-            <MenuItem key={_id} {...otherProps} linkUrl={`shop/${otherProps.name.toLowerCase()}`} />
+            <MenuItem key={_id} {...otherProps} linkUrl={`shop/${otherProps.name.toLowerCase()}/${_id}`} />
         ))}
     </div>
 }

@@ -1,28 +1,55 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 
 import CollectionItem from '../../components/collection-item/collection-item.component';
-import { selectCollection } from '../../redux/shop/shop.selectors';
+import { selectProductsSelector } from '../../redux/shop/shop.selectors';
+import { setProducts } from '../../redux/shop/shop.actions';
+
+import { getProducts } from '../../api/api-labcourse';
 
 import './collection.styles.scss';
 
-const CollectionPage = ({ collection }) => {
-  const { title, items } = collection;
+const CollectionPage = (props) => {
+  const [productsInside ,setProductsInside] = useState([])
+  console.log('props', props)
+  const { collection, setProducts } = props;
+  console.log('collection', collection)
+  // const { title, items } = collection;
+
+  useEffect(() => {
+    async function fetchProducts() {
+      const res = await getProducts();
+          setProducts(res.data.products)
+      
+          const categoryProducts = [];
+          res.data.products.forEach((product) => {
+            if (product.subCategory === props.match.params.categoryId) categoryProducts.push(product);
+          })
+
+          setProductsInside(categoryProducts);
+      }
+      fetchProducts();
+  }, [])
 
   return (
     <div className="collection-page">
-      <h2 className="title">{title}</h2>
+      {/* <h2 className="title">{title}</h2> */}
+      {console.log('items', productsInside)}
       <div className="items">
         {
-          items.map(item => <CollectionItem key={item.id} item={item} />)
+          productsInside.map(item => <CollectionItem key={item._id} item={item}>{console.log('item', item)}</CollectionItem>)
         }
       </div>
     </div>
   )
 }
 
-const mapStateToProps = (state, ownProps) => ({
-  collection: selectCollection(ownProps.match.params.collectionId)(state)
-})
+const mapStateToProps = (state, ownProps) => {
+  return {collection: selectProductsSelector}
+}
 
-export default connect(mapStateToProps)(CollectionPage);
+const mapDispatchToProps = dispatch => ({
+  setProducts: products => dispatch(setProducts(products))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(CollectionPage);
