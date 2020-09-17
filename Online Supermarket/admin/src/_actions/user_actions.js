@@ -3,8 +3,7 @@ import {
     LOGIN_USER,
     REGISTER_USER,
     AUTH_USER,
-    LOGOUT_USER,
-    REMOVE_PRODUCT
+    LOGOUT_USER
 } from './types';
 import { USER_SERVER } from '../components/Config.js';
 
@@ -46,14 +45,4 @@ export function logoutUser(){
         type: LOGOUT_USER,
         payload: request
     }
-}
-
-export function deleteProduct(id) {
-    const request = axios.delete(`api/product/deleteProduct?_id=${id}`)
-        .then(response => response.data.deletedProduct);
-
-        return {
-            type: REMOVE_PRODUCT,
-            payload: request
-        }
 }

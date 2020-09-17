@@ -27,7 +27,8 @@ var upload = multer({ storage: storage }).array("file", 10)
 
 // PRODUCTS
 
-router.post("/uploadProduct", AdminAuth, upload, ProductController.uploadProduct);
+// router.post("/uploadProduct", AdminAuth, upload, ProductController.uploadProduct);
+router.post("/uploadProduct", upload, ProductController.uploadProduct);
 
 router.get("/getProducts", ProductController.getProducts);
 
@@ -36,8 +37,8 @@ router.get("/getProductById/:id", ProductController.getProductById);
 
 router.get("/getProductsBySubCategoryId/:id", ProductController.getProductsBySubCategoryId);
 
-router.delete("/deleteProduct", AdminAuth, ProductController.deleteProduct); //admin auth to be added 
+router.delete("/deleteProduct/:id", ProductController.deleteProduct); //admin auth to be added 
 
-router.patch("/updateProduct/:id", AdminAuth, ProductController.updateProduct); //admin auth to be added 
+router.patch("/updateProduct/:id", ProductController.updateProduct); //admin auth to be added 
 
 module.exports = router;

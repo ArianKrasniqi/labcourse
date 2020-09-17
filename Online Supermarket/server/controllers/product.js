@@ -108,7 +108,8 @@ exports.updateProduct = async (req, res) => {
 
 exports.deleteProduct = async (req, res) => {
   try {
-    const deletedProduct = await Product.deleteOne({ _id: req.body._id });
+    const productId = req.params.id;
+    const deletedProduct = await Product.deleteOne({ _id: productId });
     if (deletedProduct.n === 0) {
       throw new Error("Didn't find the product")
     }

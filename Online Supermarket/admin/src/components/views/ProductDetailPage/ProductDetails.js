@@ -21,16 +21,16 @@ function ProductDetails(props) {
 
     
     const onDelete = (productId) =>{
-      dispatch(deleteProduct(productId))
-          .then(() => {
-            Axios.delete(`api/product/deleteProduct`, { _id: productId } )
-              .then(response => {
-                if(response.data.success) {
-                } else {
-                  alert('Produkti nuk eshte fshire');
-                }
-              })
-          })  
+      console.log('productId', productId)
+      Axios.delete(`/api/product/deleteProduct/${productId}`,)
+        .then(response => {
+          if(response.status === 200) {
+            alert('Produkti eshte fshire me sukses!');
+            props.history.push('/allproducts');
+          } else {
+            alert('Produkti nuk eshte fshire!');
+          }
+        })
     }
 
   return (
