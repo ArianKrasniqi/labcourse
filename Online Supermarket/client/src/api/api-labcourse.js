@@ -3,7 +3,7 @@ import { resolve } from './resolver.js';
 const BASE_URL = 'http://localhost:5000/api';
 
 const userEndpoint = `${BASE_URL}/users`;
-const productEndpoint = `${BASE_URL}/product`;
+const productEndpoint = `${BASE_URL}/product/`;
 const categoryEndpoint = `${BASE_URL}/categories`;
 const subCategoryEndpoint = `${BASE_URL}/subCategories`;
 const orderEndpoint = `${BASE_URL}/orders`;
@@ -49,6 +49,17 @@ export const getCategories = async () => {
     const getCategoriesEndpoint = `${categoryEndpoint}/getCategories`;
 
     const res = await fetch(getCategoriesEndpoint, {
+        method: 'GET',
+        headers: HEADERS
+    });
+
+    return await resolve(await res.json());
+}
+
+export const getProducts = async () => {
+    const getProductsEndpoint = `${productEndpoint}/getProducts`;
+
+    const res = await fetch(getProductsEndpoint, {
         method: 'GET',
         headers: HEADERS
     });
