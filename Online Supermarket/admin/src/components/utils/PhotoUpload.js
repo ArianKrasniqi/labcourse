@@ -6,27 +6,31 @@ import Axios from 'axios';
 function PhotoUpload(props) {
 
     const [Images, setImages] = useState([])
-
+    
     const onDrop = (files) => {
+        // props.refreshFunction(files[0]);
+        console.log('files[0]', files[0])
 
         let formData = new FormData();
         const config = {
             header: {'content-type': 'multipart/form-data'}
         }
         formData.append("file", files[0])
+        
 
+        props.refreshFunction([files])
         // to save photos in server
-        Axios.post('/api/product/uploadImage', formData ,config)
-          .then(response => {
-              if(response.data.success) {
+        // Axios.post('/api/product/uploadImage', formData ,config)
+        //   .then(response => {
+        //       if(response.data.success) {
 
-                setImages([...Images, response.data.image])
-                props.refreshFunction([...Images, response.data.image])
+        //         setImages([...Images, response.data.image])
+        //         props.refreshFunction([...Images, response.data.image])
 
-              } else {
-                  alert('Probleme, fotoja nuk u ruajt');
-              }
-          })
+        //       } else {
+        //           alert('Probleme, fotoja nuk u ruajt');
+        //       }
+        //   })
     }
 
     const onDelete = (image) => {
@@ -59,13 +63,13 @@ function PhotoUpload(props) {
         
         <div style={{ display: 'flex', width: '350px', height: '240px', overflowX: 'scroll' }}>
 
-            {Images.map((image, index) => (
+            {/* {Images.map((image, index) => (
                 <div onClick={() => onDelete(image)} key={index}>
                     <img style={{ minWidth: '300px', width: '300px', height: '220px' }} 
                         src={`http://localhost:5000/${image}`} 
                         alt={`productImg-${index}`}/>
                 </div>
-            ))}
+            ))} */}
 
         </div>
 

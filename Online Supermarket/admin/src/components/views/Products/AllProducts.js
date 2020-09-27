@@ -47,11 +47,10 @@ function AllProducts(props) {
     }
 
     const getCategories = (variables) => {
-        Axios.post('/api/categories/getCategories', variables )
+        Axios.get('/api/subCategories/getSubCategories', variables )
         .then(response => {
-            if(response.data.success) {
-                setCategories(response.data.categories);
-
+            if(response.status === 200) {
+                setCategories(response.data);
             } else {
                 alert('Gabime ne marrjen e te dhenave');
             }
@@ -94,7 +93,7 @@ function AllProducts(props) {
                     <Checkbox
                         type="checkbox"
                     >
-                        <span>{category.category}</span>
+                        <span>{category.name}</span>
                     </Checkbox>
                 </React.Fragment>
         )

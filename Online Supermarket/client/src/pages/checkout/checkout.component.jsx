@@ -34,7 +34,7 @@ const CheckoutPage = ({ cartItems, total }) => (
     }
 
     <div className="total">
-      <span>Total: ${total}</span>
+      <span>Total: ${total.toFixed(2)}</span>
     </div>
     <div className="test-warning">
       *Please use the following test credit card for payments*

@@ -52,9 +52,10 @@ function CreateProduct(props) {
         setPriceValue(event.currentTarget.value)
     }
 
-    const updateImages = (newImages) => {
-        console.log(newImages);
-        setImages(newImages)
+    const updateImages = (newImage) => {
+        const new_images = [...Images]
+        new_images.push(newImage);
+        setImages(new_images);
     }
 
     const onDiscountsChange = (event) => {
@@ -68,21 +69,34 @@ function CreateProduct(props) {
     const onSubmit = (event) => {
         event.preventDefault();
 
+        let formData = new FormData();
+        const config = {
+            header: {'content-type': 'multipart/form-data'}
+        }
+        // formData.append("new_image", Images[0][0] && Images[0][0][0])
+        console.log('formData', formData)
+
+        // Images.forEach((image) => {
+        //     console.log('image in forEach', image)
+        //     formData.append("file", image)
+        // })
+
         if( !NameValue || !DescriptionValue || !PriceValue || !Images || !Categories) {
             return alert('Mbushni te gjitha fushat e kerkuara!');
         } 
 
         const variables = {
-            writer: props.user.userData._id,
+            // writer: props.user.userData._id,
+            files: formData.get('new_image'),
             title: NameValue,
             description: DescriptionValue,
             price: PriceValue,
-            images: Images,
-            discount: DiscountValue,
+            subCategory: '5f11ff629797f9336c66e986',
+            // discount: DiscountValue,
         }
 
         // to save product in server
-        Axios.post('/api/product/uploadProduct', variables)
+        Axios.post('/api/product/uploadProduct', variables, config)
             .then(response => {
                 if(response.data.success) {
                     alert('Produkti u shtua me sukses')
@@ -95,10 +109,10 @@ function CreateProduct(props) {
 
     const getCategories = (variables) => {
 
-        Axios.post('/api/categories/getCategories', variables )
+        Axios.get('/api/subCategories/getSubCategories', variables )
         .then(response => {
-            if(response.data.success) {
-                setCategories(response.data.categories);
+            if(response.status === 200) {
+                setCategories(response.data);
 
             } else {
                 alert('Gabime ne marrjen e te dhenave');
@@ -108,12 +122,12 @@ function CreateProduct(props) {
 
     const filterCategory = Categories.map((category, index) => {
         
-        return (
+        return ( 
                 <React.Fragment key={index}>
                     <Checkbox
                         type="checkbox"
                     >
-                        <span>{category.category}</span>
+                        <span>{category.name}</span>
                     </Checkbox>
                 </React.Fragment>
         )
@@ -154,9 +168,9 @@ function CreateProduct(props) {
             <br/> <br/>
             <Title level={3}>Zgjedh Kategorine</Title>
                 <Collapse 
-                defaultActiveKey={['0']} 
-                onChange={onCategoryChange}
-                value={Categories} 
+                    defaultActiveKey={['0']} 
+                    onChange={onCategoryChange}
+                    value={Categories}
                 >
                     <Panel headerkey="1">
                         {filterCategory}

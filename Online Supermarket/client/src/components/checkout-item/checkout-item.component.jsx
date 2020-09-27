@@ -6,13 +6,14 @@ import { clearItemFromCart, addItem, removeItem } from '../../redux/cart/cart.ac
 import './checkout-item.styles.scss';
 
 const CheckoutItem = ({ cartItem, clearItem, addItem, removeItem }) => {
-  const { name, imageUrl, price, quantity } = cartItem;
+  const { description, images, price, quantity } = cartItem;
+  const imageUrl = ('http://localhost:5000/' + images[0]).replace('\\', '/');
   return (
     <div className="checkout-item">
       <div className="image-container">
         <img src={imageUrl} alt='item' />
       </div>
-      <span className="name">{name}</span>
+      <span className="name">{description}</span>
       <span className="quantity">
         <div className="arrow"
           onClick={() => removeItem(cartItem)}

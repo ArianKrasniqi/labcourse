@@ -34,10 +34,9 @@ const CollectionPage = (props) => {
   return (
     <div className="collection-page">
       {/* <h2 className="title">{title}</h2> */}
-      {console.log('items', productsInside)}
       <div className="items">
         {
-          productsInside.map(item => <CollectionItem key={item._id} item={item}>{console.log('item', item)}</CollectionItem>)
+          productsInside.map(item => <CollectionItem key={item._id} item={item}></CollectionItem>)
         }
       </div>
     </div>
